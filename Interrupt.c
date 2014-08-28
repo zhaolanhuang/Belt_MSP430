@@ -30,6 +30,8 @@ void P1_IODect()
 	if((P1IN&BIT3) == BIT3) 	P13_Now= 1;
 		else		P13_Now = 0;
 	//-----前一次高电平、后一次低电平，说明按键按下-----
+
+#ifndef DTRIGGER
 	if((P1IN&BIT4) == BIT4)
 	{
 		if((P13_Now==1)&&(P13_Past==0))
@@ -60,5 +62,16 @@ void P1_IODect()
 			CountDrawLen++;
 #endif
 	}
+#endif
 
+#ifdef DTRIGGER
+	if((P13_Now==1)&&(P13_Past==0) || (P13_Now==0)&&(P13_Past==1))
+	{
+		if((P1IN&BIT4) == BIT4)
+			CountShrinkLen++;
+		else
+			CountDrawLen++;
+	}
+#endif
 }
+

@@ -13,6 +13,7 @@
 void FlagPlus();//When Drawing Plus the Flag
 void FlagSub();//When Shrinking Sub the Flag
 void ResultCalc();
+
 void SaveShrinkToArray(const unsigned int _ShrinkResultLen);
 void SaveDrawToArray(const unsigned int _DrawResultLen);
 

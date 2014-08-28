@@ -7,10 +7,10 @@
 
 #ifndef GLOBAL_H_
 #define GLOBAL_H_
-
-#define TEST
-#define TIMMER_PERIOD 1000//TIMMER_PERIOD/1000 (ms)
-#define FLAGMAX 1
+#define DTRIGGER
+//#define TEST
+#define TIMMER_PERIOD 500//TIMMER_PERIOD/1000 (ms)
+#define FLAGMAX 10
 #define FLAGMIN 0
 extern unsigned int CountDrawLen;
 extern unsigned int CountShrinkLen;
