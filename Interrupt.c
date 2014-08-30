@@ -68,9 +68,18 @@ void P1_IODect()
 	if((P13_Now==1)&&(P13_Past==0) || (P13_Now==0)&&(P13_Past==1))
 	{
 		if((P1IN&BIT4) == BIT4)
+#ifdef TEST
 			CountShrinkLen++;
+#else
+			FlagSub();
+#endif
 		else
+#ifdef TEST
 			CountDrawLen++;
+#else
+			FlagPlus();
+#endif
+
 	}
 #endif
 }
