@@ -8,7 +8,7 @@
 #ifndef TIME_H_
 #define TIME_H_
 #include "Global.h"
-extern unsigned short BreathTime[5];
+
 void Real_Time();
 void CalcBreathTime();
 

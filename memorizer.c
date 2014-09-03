@@ -2,7 +2,7 @@
 
 unsigned char D[2];
 
-void write_16_without(unsigned int page,unsigned int start_address,unsigned int length,unsigned int *buffer)
+/*void write_16_without(unsigned int page,unsigned int start_address,unsigned int length,unsigned int *buffer)
 {
 
     FlashBuffer1ProgNoErase(page);
@@ -17,7 +17,7 @@ void write_16_without(unsigned int page,unsigned int start_address,unsigned int 
     }
     FlashBuffer1ProgNoErase(page);
 
-}
+}*/
 void AT45DB081_init()
 {
     DF_RESET;
@@ -28,6 +28,7 @@ void erase_chip()
 {
     chip_erase();
 }
+/*
 void write_8_without(unsigned int page,unsigned int start_address,unsigned int length,unsigned char *buffer)
 {
     FlashBuffer1Write(start_address,length,buffer);
@@ -45,7 +46,7 @@ void read_8(unsigned int page,unsigned int start_address,unsigned int length,uns
     PageToBuffer2(page);
     FlashBuffer2Read(start_address,length,buffer);
 }
-
+*/
 void write_16(unsigned int page,unsigned int start_address,unsigned int length,unsigned int *buffer)
 {
     int i;

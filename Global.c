@@ -7,8 +7,8 @@
 #include "Global.h"
 unsigned int CountDrawLen = 0;
 unsigned int CountShrinkLen = 0;
-unsigned int arrayDrawResultLen[5]={0};
-unsigned int arrayShrinkResultLen[5]={0};
+unsigned int arrayDrawResultLen[ARRAYLEN]={0};
+unsigned int arrayShrinkResultLen[ARRAYLEN]={0};
 unsigned char Flag = (FLAGMAX-FLAGMIN)/2;//Flag round [FLAGMIN,FLAGMAX].FLAGMIN means Shrinking.FLAGMAX means Drawing.(FLAGMIN,FLAGMAX)means Temping.
 unsigned int Temp = 0;//When Flag round (FLAGMIN,FLAGMAX) whatever Shrinking or Drawing Temp++
 unsigned int CountDraw = 0;

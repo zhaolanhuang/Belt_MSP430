@@ -5,9 +5,8 @@
  *      Author: HP
  */
 #include "Time.h"
-#include "Bluetooth.h"
-#include "UART/UART_Global.h"
-unsigned short BreathTime[5]={0};
+
+unsigned int BreathTime[ARRAYLEN]={0};
 void Real_Time()
 {
 
@@ -16,12 +15,7 @@ void Real_Time()
 	{
 		Second++;
 		Timmer_Cycle = 0;
-		//UART_SendString("TEST+\0");
 
-	//	if(BState == Test)
-	//	{
-
-	//	}
 	}
 
 }
@@ -31,12 +25,21 @@ void CalcBreathTime()
 	static unsigned char BreathTimeIndex = 0;
 	if(TimeFlag == 0)
 	{
-	BreathTime[BreathTimeIndex] = Second *1000+ Timmer_Cycle;
+	BreathTime[BreathTimeIndex] = Second *10+ Timmer_Cycle/200;
 	}
 	if(TimeFlag == 1)
 	{
-	BreathTime[BreathTimeIndex] = (Second *1000+ Timmer_Cycle) - BreathTime[BreathTimeIndex];
+	BreathTime[BreathTimeIndex] = (Second *10+ Timmer_Cycle/200) - BreathTime[BreathTimeIndex];
 	BreathTimeIndex++;
+	if(BreathTimeIndex > ARRAYLEN)
+		{
+		#ifdef SAVE
+			SaveData();
+		#endif
+			SendData();
+			BreathTimeIndex = 0;
+		}
+
 	}
 	TimeFlag++;
 	if (TimeFlag>1) TimeFlag = 0;

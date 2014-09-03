@@ -39,9 +39,10 @@ void ResultCalc()
 	unsigned int DrawResultLen = 0;
 	if (Flag == FLAGMAX && Flag_Past == FLAGMIN)//Shrink Over
 	{
-		CalcBreathTime();
+		
 		ShrinkResultLen = CountShrinkLen + Temp - (FLAGMAX - FLAGMIN - 1);
 		SaveShrinkToArray(ShrinkResultLen);
+		CalcBreathTime();
 		CountShrinkLen = 0;
 		CountDrawLen = CountDrawLen + (FLAGMAX - FLAGMIN - 1);
 		Temp = 0;
@@ -50,9 +51,10 @@ void ResultCalc()
 	}
 	if (Flag == FLAGMIN && Flag_Past == FLAGMAX)//Draw Over
 	{
-		CalcBreathTime();
+		
 		DrawResultLen = CountDrawLen + Temp- (FLAGMAX - FLAGMIN - 1);
 		SaveDrawToArray(DrawResultLen);
+		CalcBreathTime();
 		CountDrawLen = 0;
 		CountShrinkLen = CountShrinkLen + (FLAGMAX - FLAGMIN - 1);
 		Temp = 0;
@@ -75,7 +77,7 @@ void ResultCalc()
 void SaveDrawToArray(const unsigned int _DrawResultLen)
 {
 	static unsigned char indexDrawResultLen = 0;
-	if (indexDrawResultLen >30) indexDrawResultLen = 0;
+	if (indexDrawResultLen >ARRAYLEN) indexDrawResultLen = 0;
 	arrayDrawResultLen[indexDrawResultLen] = _DrawResultLen;
 	indexDrawResultLen++;
 
@@ -83,7 +85,7 @@ void SaveDrawToArray(const unsigned int _DrawResultLen)
 void SaveShrinkToArray(const unsigned int _ShrinkResultLen)
 {
 	static unsigned char indexShrinkResultLen = 0;
-	if (indexShrinkResultLen >30) indexShrinkResultLen = 0;
+	if (indexShrinkResultLen >ARRAYLEN) indexShrinkResultLen = 0;
 	arrayShrinkResultLen[indexShrinkResultLen] = _ShrinkResultLen;
 	indexShrinkResultLen++;
 

@@ -358,6 +358,7 @@ unsigned char SPI_TxFrame(unsigned char  *pBuffer, unsigned int  size)
 //-----提前申明事件处理函数-----
 static void SPI_TxISR();
 static void SPI_RxISR();
+
 /******************************************************************************************************
  * 名       称：USCI0TX_ISR_HOOK()
  * 功       能：响应Tx中断服务
@@ -366,14 +367,14 @@ static void SPI_RxISR();
  * 说       明：包含唤醒主循环CPU的代码
  * 范       例：无
  ******************************************************************************************************/
-#pragma vector=USCIAB0TX_VECTOR
-__interrupt void USCI0TX_ISR_HOOK(void)
+
+void SPI_TxISR_Hook()
 {
 	//-----发送中断事件引擎函数-----
 	SPI_TxISR();
 	//-----判断此次操作是否完成，完成则退出低功耗-----
 	 if(SPI_Tx_Size==0)
-	_bic_SR_register_on_exit(LPM0_bits);
+	_bic_SR_register(LPM0_bits);
 }
 /******************************************************************************************************
  * 名       称：USCI0RX_ISR_HOOK()
@@ -383,14 +384,14 @@ __interrupt void USCI0TX_ISR_HOOK(void)
  * 说       明：包含唤醒主循环CPU的代码
  * 范       例：无
  ******************************************************************************************************/
-#pragma vector=USCIAB0RX_VECTOR
-__interrupt void USCI0RX_ISR_HOOK(void)
+
+void SPI_RxISR_Hook()
 {
 	//-----接收中断事件引擎函数-----
 	 SPI_RxISR();
 	//-----判断此次操作是否完成，完成则退出低功耗-----
 	 if(SPI_Rx_Size==0)
-	_bic_SR_register_on_exit(LPM0_bits);
+	_bic_SR_register(LPM0_bits);
 }
 /******************************************************************************************************
  * 名       称：SPI_RxISR()
@@ -410,7 +411,7 @@ static void SPI_RxISR()
 		SPI_Rx_Buffer++;												// 接收指针向下一字节偏移
 		UCB0TXBUF = 0xFF;												// 纯粹为了提供CLK。UCA0TXIFG标志位同时被清除。
 	}
-    IFG2 &= ~UCB0TXIFG;                                   			// 清除发送中断标志位
+    IFG2 &= ~UCB0TXIFG; //！                              			// 清除发送中断标志位
 
 }
 /******************************************************************************************************

@@ -20,6 +20,8 @@ int main(int argc, char *argv[])
 
 	WDTCTL = WDTPW + WDTHOLD;//Halt the DOG
 	USCI_A0_init();
+	//AT45DB081_init();
+	//ReadPointer();
 	ALL_Init();
 
     _bis_SR_register(LPM1_bits + GIE);

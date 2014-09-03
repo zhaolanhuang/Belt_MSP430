@@ -52,7 +52,7 @@ void erase_chip();
 //unsigned int length,要储存的数据数量，小于256
 //unsigned char *buffer，字符数组，将其中的储存的数据写入存储器
 //示例：write_8(0,0,256,MyBuff);从存储器的第一页的第一个位置开始，写入数组MyBuff中的256个数据
-void write_8(unsigned int page,unsigned int start_address,unsigned int length,unsigned char *buffer);
+//void write_8(unsigned int page,unsigned int start_address,unsigned int length,unsigned char *buffer);
 
 //功能：读取存储器
 //注意：储存单位为一个字节，所以字符数组类型为unsigned char
@@ -61,7 +61,7 @@ void write_8(unsigned int page,unsigned int start_address,unsigned int length,un
 //unsigned int length,要读取的数据数量，小于256
 //unsigned char *buffer，字符数组，将要读取的数据储存的这个数组中
 //示例：read_8(0,0,256,MyBuff);从存储器的第一页的第一个位置开始，读取256个数据，存入MyBuff中
-void read_8(unsigned int page,unsigned int start_address,unsigned int length,unsigned char *buffer);
+//void read_8(unsigned int page,unsigned int start_address,unsigned int length,unsigned char *buffer);
 
 //功能：写入到存储器（写前不删除待写页内容,需手动删除）
 //特点：相对write_8函数，本函数速度较快(没算上删除时间)，
@@ -71,7 +71,7 @@ void read_8(unsigned int page,unsigned int start_address,unsigned int length,uns
 //unsigned int start_address,页中的具体位置，储存的起始位置,小于256
 //unsigned int length,要储存的数据数量，小于256
 //unsigned int *buffer，数组，将其中的储存的数据写入存储器
-void write_8_without(unsigned int page,unsigned int start_address,unsigned int length,unsigned char *buffer);
+//void write_8_without(unsigned int page,unsigned int start_address,unsigned int length,unsigned char *buffer);
 
 //功能：写入到存储器（写前自动删除待写页内容）
 //注意：储存单位为两个字节，所以字符数组类型为unsigned int
@@ -99,5 +99,5 @@ void read_16(unsigned int page,unsigned int start_address,unsigned int length,un
 //unsigned int start_address,页中的具体位置，储存的起始位置,小于128
 //unsigned int length,要储存的数据数量，小于128
 //unsigned int *buffer，数组，将其中的储存的数据写入存储器
-void write_16_without(unsigned int page,unsigned int start_address,unsigned int length,unsigned int *buffer);
+//void write_16_without(unsigned int page,unsigned int start_address,unsigned int length,unsigned int *buffer);
 #endif

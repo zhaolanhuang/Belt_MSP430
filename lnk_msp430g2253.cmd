@@ -28,7 +28,7 @@ MEMORY
     INFOB                   : origin = 0x1080, length = 0x0040
     INFOC                   : origin = 0x1040, length = 0x0040
     INFOD                   : origin = 0x1000, length = 0x0040
-    FLASH                   : origin = 0xF800, length = 0x07E0
+	FLASH                   : origin = 0xC000, length = 0x3FE0
     INT00                   : origin = 0xFFE0, length = 0x0002
     INT01                   : origin = 0xFFE2, length = 0x0002
     INT02                   : origin = 0xFFE4, length = 0x0002

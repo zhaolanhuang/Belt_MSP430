@@ -7,6 +7,7 @@
 
 #include "MSP430G2553.h"
 #include "UART_Event.h"
+#include "../SPI.h"
 /******************************************************************************************************
  * 名       称：USCI_A0_init()
  * 功       能：初始化USCI_A0模块为UART模式
@@ -46,9 +47,20 @@ void USCI_A0_init(void)
 __interrupt void USCI0TX_ISR(void)
 {
 	_DINT();
+	if((IFG2&UCA0TXIFG) == UCA0TXIFG)
+	{
+
 	IFG2&=~UCA0TXIFG;
 	UART_OnTx();					// 调用Tx事件处理函数
        // 手动清除标志位
+
+	}
+	#ifdef SAVE
+	if((IFG2&UCB0TXIFG) == UCB0TXIFG)
+	{
+		SPI_TxISR_Hook();
+	}
+	#endif
 	_EINT();
 }
 /******************************************************************************************************
@@ -62,9 +74,20 @@ __interrupt void USCI0TX_ISR(void)
 #pragma vector=USCIAB0RX_VECTOR
 __interrupt void USCI0RX_ISR(void)
 {
+	_DINT();
+	if((IFG2&UCA0RXIFG) == UCA0RXIFG)
+	{
 	IFG2&=~UCA0RXIFG;     // 手动清除标志位
 	UART_OnRx();					// 调用Rx事件处理函数
-	P1OUT ^= BIT6;
+	//P1OUT ^= BIT6;
+	}
+	#ifdef SAVE
+	if((IFG2&UCB0RXIFG) == UCB0RXIFG)
+	{
+	SPI_RxISR_Hook();
+	}
+	#endif
+	_EINT();
 }
 
 

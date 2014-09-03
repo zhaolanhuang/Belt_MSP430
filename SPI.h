@@ -17,5 +17,6 @@ extern void SPI_LowSpeed(void);
 extern void SPI_init(void);
 extern unsigned char SPI_TxFrame(unsigned char  *pBuffer, unsigned int   size);
 extern unsigned char SPI_RxFrame(unsigned char  *pBuffer, unsigned int size);
-
+extern void SPI_TxISR_Hook();
+extern void SPI_RxISR_Hook();
 #endif /* SPI_H_ */
