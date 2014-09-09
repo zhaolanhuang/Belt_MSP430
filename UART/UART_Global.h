@@ -8,6 +8,7 @@
 #ifndef UART_GLOBAL_H_
 #define UART_GLOBAL_H_
 #include "../Bluetooth.h"
+#include "../Global.h"
 #define RX_FIFO_SIZE 16		//接收缓冲区大小宏定义
 #define TX_FIFO_SIZE 64		//发送缓冲区大小宏定义
 

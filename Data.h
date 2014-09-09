@@ -17,12 +17,13 @@ Using Word R/W Mode
 */
 #define PAGEBASE 0
 #define OFFSETBASE 1
-extern unsigned int page;//当前页索引,range [0,4095]
-extern unsigned int pageOffset;//页内偏移,range [0,127]
+extern unsigned int pageIndex;//当前页索引,range [0,4095]
+extern unsigned int pageOffsetIndex;//页内偏移,range [0,127]
 void Push(unsigned int *data);
-void Pop(unsigned int *data);
-void SaveData();//保存ARRAYLEN组呼吸数据
-void SendData();
-void SavePointer();
-void ReadPointer();
+unsigned char Pop(unsigned int *data);
+extern void SaveData();//保存ARRAYLEN组呼吸数据
+extern void SendData();
+extern void SavePointer();
+extern void ReadPointer();
+extern void FlushFlash();
 #endif /* DATA_H_ */

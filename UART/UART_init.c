@@ -7,6 +7,7 @@
 
 #include "MSP430G2553.h"
 #include "UART_Event.h"
+#include "../Global.h"
 #include "../SPI.h"
 /******************************************************************************************************
  * 名       称：USCI_A0_init()
@@ -20,10 +21,10 @@
 void USCI_A0_init(void)
 {
 	//-----开启IO口的TXD和RXD功能-----
-	  P1SEL = BIT1 + BIT2 ;                     // P1.1 = RXD, P1.2=TXD
-	  P1SEL2 = BIT1 + BIT2;
-	  P1DIR |= BIT6;
-	  UCA0CTL1 |= UCSWRST;
+	  P1SEL |= BIT1 + BIT2 ;                     // P1.1 = RXD, P1.2=TXD
+	  P1SEL2 |= BIT1 + BIT2;
+
+	 UCA0CTL1 |= UCSWRST;
 
 	  //-----设置UART时钟源为ACLK-----
 	  UCA0CTL1 |= UCSSEL_2;                // CLK = smCLK
@@ -46,22 +47,39 @@ void USCI_A0_init(void)
 #pragma vector=USCIAB0TX_VECTOR
 __interrupt void USCI0TX_ISR(void)
 {
-	_DINT();
+	//TACCTL0 &= ~CCIE;//Stop Timmer
+#ifdef SAVE
+	if((IFG2&UCB0TXIFG) == UCB0TXIFG)
+	{
+	//IFG2 &= ~UCB0TXIFG;
+	//	SPI_TxISR_Hook();
+	    UCB0RXBUF;                                            				// Tx和Rx中断标志位都会置位。此处对UCA0RXBUF空操作，用于清除“UCA0RXIFG”中断标志位
+		if(SPI_Tx_Size!=0)
+		{
+			SPI_Tx_Size-- ;														// 待发送的数据减1
+			SPI_Tx_Buffer++;											// 发送指针向下一字节偏移
+			UCB0TXBUF = *SPI_Tx_Buffer;							// 放入发送缓存，同时，用于清除“UCA0TXIFG”中断标志位
+		}
+		else
+			IFG2 &= ~UCB0TXIFG;
+		if(SPI_Tx_Size==0)
+		_bic_SR_register_on_exit(LPM0_bits);
+	//IFG2 &= ~UCB0TXIFG;
+	}
+#endif
 	if((IFG2&UCA0TXIFG) == UCA0TXIFG)
 	{
 
-	IFG2&=~UCA0TXIFG;
+	IFG2 &= ~UCA0TXIFG;
 	UART_OnTx();					// 调用Tx事件处理函数
-       // 手动清除标志位
+	//IFG2 &= ~UCA0TXIFG;   // 手动清除标志位
 
 	}
-	#ifdef SAVE
-	if((IFG2&UCB0TXIFG) == UCB0TXIFG)
-	{
-		SPI_TxISR_Hook();
-	}
-	#endif
-	_EINT();
+
+
+	//TACCTL0 |= CCIE;//Enable Timmer
+	//if (isInTimmer == 0) TACCTL0 |= CCIE;
+	
 }
 /******************************************************************************************************
  * 名       称：USCI0RX_ISR()
@@ -74,20 +92,36 @@ __interrupt void USCI0TX_ISR(void)
 #pragma vector=USCIAB0RX_VECTOR
 __interrupt void USCI0RX_ISR(void)
 {
-	_DINT();
-	if((IFG2&UCA0RXIFG) == UCA0RXIFG)
-	{
-	IFG2&=~UCA0RXIFG;     // 手动清除标志位
-	UART_OnRx();					// 调用Rx事件处理函数
-	//P1OUT ^= BIT6;
-	}
-	#ifdef SAVE
+
+	TACCTL0 &= ~CCIE;//Stop Timmer
+#ifdef SAVE
 	if((IFG2&UCB0RXIFG) == UCB0RXIFG)
 	{
-	SPI_RxISR_Hook();
+
+	//SPI_RxISR_Hook();
+		*SPI_Rx_Buffer = UCB0RXBUF;								//  读取接收缓存，同时，用于清除“UCA0RXIFG”中断标志位
+		if(SPI_Rx_Size!=0)
+		{
+			SPI_Rx_Size-- ;														// 待发送的数据减1
+			SPI_Rx_Buffer++;												// 接收指针向下一字节偏移
+			UCB0TXBUF = 0xFF;												// 纯粹为了提供CLK。UCA0TXIFG标志位同时被清除。
+		}
+	    IFG2 &= ~UCB0TXIFG; //！
+	 if(SPI_Rx_Size==0)
+	//	 flagRx = 0;
+		 _bic_SR_register_on_exit(LPM0_bits);
 	}
 	#endif
-	_EINT();
+	if((IFG2&UCA0RXIFG) == UCA0RXIFG)
+	{
+	IFG2 &= ~UCA0RXIFG;     // 手动清除标志位
+	UART_OnRx();					// 调用Rx事件处理函数
+
+	}
+
+	if (isInTimmer == 0) TACCTL0 |= CCIE;//Enable Timmer
+
+	
 }
 
 

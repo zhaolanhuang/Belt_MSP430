@@ -12,6 +12,7 @@ void FlagPlus()
 	{
 		Flag = FLAGMAX;
 		ResultCalc();
+
 	}
 	else
 	{
@@ -77,7 +78,7 @@ void ResultCalc()
 void SaveDrawToArray(const unsigned int _DrawResultLen)
 {
 	static unsigned char indexDrawResultLen = 0;
-	if (indexDrawResultLen >ARRAYLEN) indexDrawResultLen = 0;
+	if (indexDrawResultLen >ARRAYLEN-1) indexDrawResultLen = 0;
 	arrayDrawResultLen[indexDrawResultLen] = _DrawResultLen;
 	indexDrawResultLen++;
 
@@ -85,7 +86,7 @@ void SaveDrawToArray(const unsigned int _DrawResultLen)
 void SaveShrinkToArray(const unsigned int _ShrinkResultLen)
 {
 	static unsigned char indexShrinkResultLen = 0;
-	if (indexShrinkResultLen >ARRAYLEN) indexShrinkResultLen = 0;
+	if (indexShrinkResultLen >ARRAYLEN-1) indexShrinkResultLen = 0;
 	arrayShrinkResultLen[indexShrinkResultLen] = _ShrinkResultLen;
 	indexShrinkResultLen++;
 

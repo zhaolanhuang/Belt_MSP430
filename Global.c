@@ -15,4 +15,6 @@ unsigned int CountDraw = 0;
 unsigned int CountShrink = 0;
 unsigned short Second = 0;
 unsigned int Timmer_Cycle = 0;
-
+unsigned char TransmitMode = 2;
+unsigned int BState = IDLE;
+unsigned char isInTimmer = 2;

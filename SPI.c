@@ -14,7 +14,7 @@
 
 #ifdef	SOFT_SPI				//Begin of SOFT_SPI
 static unsigned char SPI_Delay=50;			//=5us
-#define DelayMCLK_FREQ			12000000		//用于精确延时函数
+#define DelayMCLK_FREQ			1000000		//用于精确延时函数
 //-----对从机使能CS（STE）引脚宏定义-----
 #define SPI_CS_HIGH			P2OUT |=BIT4
 #define SPI_CS_LOW			P2OUT &=~BIT4
@@ -76,7 +76,7 @@ static void delay_us(void)
 {
 	unsigned int i=0;
 	for(i=0;i<SPI_Delay;i++)
-		__delay_cycles(DelayMCLK_FREQ/10000000);		//us延时
+		__delay_cycles(DelayMCLK_FREQ/1000000);		//us延时
 }
 /******************************************************************************************************
  * 名       称：Tx_Char()
@@ -189,15 +189,16 @@ void SPI_LowSpeed()
 #endif		//End of SOFT_SPI
 
 #ifdef HARD_SPI			//Begin of HRAD_SPI
-
+//unsigned char flagTx = 2;//CPU阻塞标志位,1 block,0 no block;
+//unsigned char flagRx = 2;
 //-----硬件SPI管脚宏定义-----
 #define SPI_SIMO        	BIT7		//1.7
 #define SPI_SOMI        	BIT6		//1.6
 #define SPI_CLK         	BIT5		//1.5
-#define SPI_CS           	BIT4		//P2.4
+#define SPI_CS           	BIT5		//P2.5
 //-----硬件SPI控制端口宏定义-----
 #define SPI_SEL2         	P1SEL2
-#define SPI_SEL         		P1SEL
+#define SPI_SEL         	P1SEL
 #define SPI_DIR         	P1DIR
 #define SPI_OUT         	P1OUT
 #define SPI_REN         	P1REN
@@ -326,10 +327,14 @@ unsigned char SPI_RxFrame(unsigned char  *pBuffer, unsigned int size)
     SPI_Rx_Buffer = pBuffer;										// 将发送缓存指向待发送的数组地址
     SPI_Rx_Size = size-1;												// 待发送的数据个数
     SPI_Interrupt_Sel(SPI_Rx_Or_Tx);							// SPI中断开启选择
-    _enable_interrupts();                                				// 开总中断
+                                   				// 开总中断
     UCB0TXBUF = 0xFF;													// 在接收模式下，也要先发送一次空字节，以便提供通信时钟。
-    _bis_SR_register(LPM0_bits);									// 进入低功耗模式0
-	return (1);
+  	IFG2 |= UCB0RXIFG;
+  	_enable_interrupts();
+    //flagRx = 1;								// 进入低功耗模式0
+	//while(flagRx);
+	_bis_SR_register(LPM0_bits);
+  	return (1);
 }
 /****************************************************************************
 * 名    称：SPI_TxFrame()
@@ -353,7 +358,9 @@ unsigned char SPI_TxFrame(unsigned char  *pBuffer, unsigned int  size)
     _enable_interrupts();	                               				// 开总中断
     UCB0TXBUF = *SPI_Tx_Buffer;								// 先发送第一个字节人工触发第一次"发送"中断
 	_bis_SR_register(LPM0_bits);									// 进入低功耗模式0
-	return (1);
+	//flagTx = 1;
+	//while(flagTx);
+    return (1);
 }
 //-----提前申明事件处理函数-----
 static void SPI_TxISR();
@@ -373,8 +380,7 @@ void SPI_TxISR_Hook()
 	//-----发送中断事件引擎函数-----
 	SPI_TxISR();
 	//-----判断此次操作是否完成，完成则退出低功耗-----
-	 if(SPI_Tx_Size==0)
-	_bic_SR_register(LPM0_bits);
+
 }
 /******************************************************************************************************
  * 名       称：USCI0RX_ISR_HOOK()
@@ -390,8 +396,7 @@ void SPI_RxISR_Hook()
 	//-----接收中断事件引擎函数-----
 	 SPI_RxISR();
 	//-----判断此次操作是否完成，完成则退出低功耗-----
-	 if(SPI_Rx_Size==0)
-	_bic_SR_register(LPM0_bits);
+
 }
 /******************************************************************************************************
  * 名       称：SPI_RxISR()

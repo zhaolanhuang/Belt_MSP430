@@ -10,11 +10,18 @@
 #pragma vector = TIMER0_A0_VECTOR
 __interrupt void TA0_ISR(void)
 {
+
 	_DINT();
+	TACCTL0 &= ~CCIE;//Stop Timmer
+	isInTimmer = 1;
 	TA0CTL &= ~TAIFG;
+	TACCTL0 &= ~CCIFG;
 	Real_Time();
+
 	P1_IODect();//IO…®√Ë
 
+	TACCTL0 |= CCIE;
+	isInTimmer = 0;
 	_EINT();
 }
 void P1_IODect()

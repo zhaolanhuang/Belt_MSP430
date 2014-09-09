@@ -19,9 +19,13 @@ int main(int argc, char *argv[])
 {
 
 	WDTCTL = WDTPW + WDTHOLD;//Halt the DOG
+	P1DIR |= BIT0;
+	P1OUT ^= BIT0;
+	AT45DB081_init();
+
+	FlushFlash();
+	ReadPointer();
 	USCI_A0_init();
-	//AT45DB081_init();
-	//ReadPointer();
 	ALL_Init();
 
     _bis_SR_register(LPM1_bits + GIE);

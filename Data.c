@@ -6,91 +6,154 @@
  */
 
 #include "Data.h"
-unsigned int page = 0;
-unsigned int pageOffset = 0;
+unsigned int pageIndex = 0;
+unsigned int pageOffsetIndex = OFFSETBASE + 1;
 void Push(unsigned int *data)
 {
-	write_16(page,pageOffset,1,data);
-	pageOffset++;
-	if(pageOffset > 127)
+	static unsigned char times = 0;
+	write_16(pageIndex,pageOffsetIndex,1,data);
+	pageOffsetIndex++;
+	if(pageOffsetIndex > 127)
 	{
-		pageOffset = 0;
-		page++;
+		pageOffsetIndex = 0;
+		pageIndex++;
 	}
-	if(page>4095)
+	if(pageIndex>4095)
 	{
-		page = 0;
-		pageOffset = OFFSETBASE+1;
+		pageIndex = 0;
+		pageOffsetIndex = OFFSETBASE+1;
 	}
-	SavePointer();
+	times++;
+	if (times == 3)
+	{
+		SavePointer();
+		times = 0;
+	}
+
 
 }
-void Pop(unsigned int *data)
+unsigned char Pop(unsigned int *data)
 {
-	read_16(page,pageOffset,1,data);
-	if(page == 0 && pageOffset == OFFSETBASE+1)
+	static unsigned char times = 0;
+	read_16(pageIndex,pageOffsetIndex,1,data);
+	if(pageIndex == 0 && pageOffsetIndex == OFFSETBASE+1)
 	{
-		page = 4095;
-		pageOffset = 127;
+	//	pageIndex = 4095;
+	//	pageOffsetIndex = 127;
 		SavePointer();
-		return;
+		return 1;
 
 	}
-	if(pageOffset == 0)
+	if(pageOffsetIndex == 0)
 	{
-		pageOffset = 127;
+		pageOffsetIndex = 127;
 
-			page--;
+			pageIndex--;
 	}
 
 	else
 	{
-		pageOffset--;
+		pageOffsetIndex--;
+
 	}
-	SavePointer();
+	times++;
+	if (times == 3)
+	{
+		SavePointer();
+		times = 0;
+	}
+	return 0;
+	//SavePointer();
 
 
 }
 void SaveData()
 {
 	int i;
-	for(i = 0;i<ARRAYLEN;i++)
+	for(i = 0;i<ARRAYLEN ;i++)
 	{
 		Push(&BreathTime[i]);
 		Push(&arrayDrawResultLen[i]);
 		Push(&arrayShrinkResultLen[i]);
 	}
+	SavePointer();
+}
+void FlushFlash()
+{
+	pageIndex = 0;
+	pageOffsetIndex = OFFSETBASE + 1;
+	SavePointer();
 }
 void SavePointer()
 {
-	write_16(0,0,1,&page);
-	write_16(0,1,1,&pageOffset);
+	write_16(0,0,1,&pageIndex);
+	write_16(0,1,1,&pageOffsetIndex);
 }
 void ReadPointer()
 {
-	read_16(0,0,1,&page);
-	read_16(0,1,1,&pageOffset);
+	read_16(0,0,1,&pageIndex);
+	read_16(0,1,1,&pageOffsetIndex);
 }
 void SendData()
 {
-	char temp,i;
-	if(BState == Transmit)
+	unsigned char temp,i;
+	unsigned int itemp;
+/*	if(BState == BTRANSMIT)
 	{
-	for(i=0;i<5;i++)
+		UART_SendString("READY+");
+		BState = PRESEND;
+		return;
+	}*/
+
+	if(BState == BTRANSMIT)
 	{
-		temp = BreathTime[i] & 0x00ff;
-		Tx_FIFO_WriteChar(temp);
-		temp = (BreathTime[i]>>8) & 0x00ff;
-		Tx_FIFO_WriteChar(temp);
-		temp = arrayDrawResultLen[i] & 0x00ff;
-		Tx_FIFO_WriteChar(temp);
-		temp = (arrayDrawResultLen[i]>>8) & 0x00ff;
-		Tx_FIFO_WriteChar(temp);
-		temp = arrayShrinkResultLen[i] & 0x00ff;
-		Tx_FIFO_WriteChar(temp);
-		temp = (arrayShrinkResultLen[i]>>8) & 0x00ff;
-		Tx_FIFO_WriteChar(temp);
+		if(TransmitMode == REALTIME)
+		{
+			for(i=0;i<ARRAYLEN;i++)
+			{
+
+				temp = BreathTime[i] & 0x00ff;
+				Tx_FIFO_WriteChar(temp);
+				temp = (BreathTime[i]>>8) & 0x00ff;
+				Tx_FIFO_WriteChar(temp);
+				temp = arrayDrawResultLen[i] & 0x00ff;
+				Tx_FIFO_WriteChar(temp);
+				temp = (arrayDrawResultLen[i]>>8) & 0x00ff;
+				Tx_FIFO_WriteChar(temp);
+				temp = arrayShrinkResultLen[i] & 0x00ff;
+				Tx_FIFO_WriteChar(temp);
+				temp = (arrayShrinkResultLen[i]>>8) & 0x00ff;
+				Tx_FIFO_WriteChar(temp);
+				/*
+				Tx_FIFO_WriteChar(123);
+				Tx_FIFO_WriteChar(456);
+				Tx_FIFO_WriteChar(123);
+				Tx_FIFO_WriteChar(456);
+				Tx_FIFO_WriteChar(123);
+				Tx_FIFO_WriteChar(456);
+		*/
+			}
+			UART_SendString("READY+");
+		}
+		else if (TransmitMode == HISTORY)
+		{
+			i = 0;
+			while(!Pop(&itemp))
+			{
+				temp = itemp & 0x00ff;
+				Tx_FIFO_WriteChar(temp);
+				temp = (itemp >>8)& 0x00ff;
+				Tx_FIFO_WriteChar(temp);
+				i++;
+				if(i == 15)
+				{
+					UART_SendString("READY+");
+					i = 0;
+				}
+			}
+		}
+	//BState = IDLE;
 	}
-	}
+
 
 }

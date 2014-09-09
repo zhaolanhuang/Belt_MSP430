@@ -21,8 +21,10 @@ void Real_Time()
 }
 void CalcBreathTime()
 {
+
 	static unsigned char TimeFlag = 0;
 	static unsigned char BreathTimeIndex = 0;
+	IE2 &= ~(UCA0RXIE);
 	if(TimeFlag == 0)
 	{
 	BreathTime[BreathTimeIndex] = Second *10+ Timmer_Cycle/200;
@@ -31,16 +33,32 @@ void CalcBreathTime()
 	{
 	BreathTime[BreathTimeIndex] = (Second *10+ Timmer_Cycle/200) - BreathTime[BreathTimeIndex];
 	BreathTimeIndex++;
-	if(BreathTimeIndex > ARRAYLEN)
+
+	SendData();
+
+
+	if(BreathTimeIndex > ARRAYLEN -1)
 		{
+		IE2 &= ~(UCA0RXIE);
 		#ifdef SAVE
-			SaveData();
+
+		int i;
+		for(i = 0;i<ARRAYLEN ;i++)
+		{
+			Push(&BreathTime[i]);
+			Push(&arrayDrawResultLen[i]);
+			Push(&arrayShrinkResultLen[i]);
+		}
+
 		#endif
-			SendData();
+
+
 			BreathTimeIndex = 0;
 		}
+
 
 	}
 	TimeFlag++;
 	if (TimeFlag>1) TimeFlag = 0;
+	IE2 |= (UCA0RXIE);
 }
