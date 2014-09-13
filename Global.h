@@ -8,6 +8,11 @@
 #ifndef GLOBAL_H_
 #define GLOBAL_H_
 #include "Data.h"
+#include "Interrupt.h"
+#include "Count.h"
+#include "Init.h"
+#include "Time.h"
+#include "Bluetooth.h"
 #define DTRIGGER
 //#define TEST
 #define SAVE

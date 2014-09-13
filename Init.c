@@ -6,13 +6,17 @@
  */
 #include "Init.h"
 
+
 void ALL_Init()
 {
-	BCSplus_init();
-	GPIO_Init();
-	TA0_Init();
+	BCSplus_init();//Clock System Init
+	GPIO_Init();//I/O Port Init
+	AT45DB081_init();//Flash Moudle Init
+	ReadPointer(); //Read
+	USCI_A0_init();
+	TA0_Init();//Timmer Init
 }
-void GPIO_Init() //SET P1.3(U1) P1.4(U2) as Gate1 INPUT,interrupt enable,eadge up.
+void GPIO_Init() //SET P1.3(U1) P1.4(U2) as D_TRigger and CHA input.
 {
 	P1DIR &= ~(BIT3+BIT4); //P1.0 as INPUT
 	P1REN |= BIT3+BIT4;	//Enable Resistor

@@ -1,0 +1,1 @@
+"./UART/UART_init.obj" "./UART/UART_Global.obj" "./UART/UART_FIFO.obj" "./UART/UART_Event.obj" "./memorizer.obj" "./main.obj" "./Time.obj" "./SPI.obj" "./Interrupt.obj" "./Init.obj" "./Global.obj" "./Data.obj" "./Count.obj" "./Bluetooth.obj" "./AT45DB081.obj" -l"libc.a" "../lnk_msp430g2253.cmd" 
