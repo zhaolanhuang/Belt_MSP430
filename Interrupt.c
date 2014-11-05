@@ -16,12 +16,22 @@ __interrupt void TA0_ISR(void)
 	isInTimmer = 1;
 	TA0CTL &= ~TAIFG;
 	TACCTL0 &= ~CCIFG;
-	Real_Time();
+	//Real_Time();
 
 	P1_IODect();//IO…®√Ë
 
 	TACCTL0 |= CCIE;
 	isInTimmer = 0;
+	_EINT();
+}
+#pragma vector = TIMER1_A0_VECTOR
+__interrupt void TA1_ISR(void)
+{
+
+	_DINT();
+	Real_Time();
+	TA1CTL &= ~TAIFG;
+	TA1CCTL0 &= ~CCIFG;
 	_EINT();
 }
 void P1_IODect()

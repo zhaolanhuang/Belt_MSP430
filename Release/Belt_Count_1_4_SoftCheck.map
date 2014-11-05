@@ -1,10 +1,10 @@
 ******************************************************************************
                   MSP430 Linker PC v4.1.1                      
 ******************************************************************************
->> Linked Sat Sep 13 22:26:42 2014
+>> Linked Wed Nov 05 14:40:03 2014
 
 OUTPUT FILE NAME:   <Belt_Count_1_4_SoftCheck.out>
-ENTRY POINT SYMBOL: "_c_int00"  address: 0000c9cc
+ENTRY POINT SYMBOL: "_c_int00"  address: 0000c9ec
 
 
 MEMORY CONFIGURATION
@@ -19,7 +19,7 @@ MEMORY CONFIGURATION
   INFOC                 00001040   00000040  00000000  00000040  RWIX
   INFOB                 00001080   00000040  00000000  00000040  RWIX
   INFOA                 000010c0   00000040  00000000  00000040  RWIX
-  FLASH                 0000c000   00003fe0  00000b90  00003450  RWIX
+  FLASH                 0000c000   00003fe0  00000b8e  00003452  RWIX
   INT00                 0000ffe0   00000002  00000000  00000002  RWIX
   INT01                 0000ffe2   00000002  00000000  00000002  RWIX
   INT02                 0000ffe4   00000002  00000000  00000002  RWIX
@@ -33,7 +33,7 @@ MEMORY CONFIGURATION
   INT10                 0000fff4   00000002  00000000  00000002  RWIX
   INT11                 0000fff6   00000002  00000000  00000002  RWIX
   INT12                 0000fff8   00000002  00000000  00000002  RWIX
-  INT13                 0000fffa   00000002  00000000  00000002  RWIX
+  INT13                 0000fffa   00000002  00000002  00000000  RWIX
   INT14                 0000fffc   00000002  00000000  00000002  RWIX
   RESET                 0000fffe   00000002  00000002  00000000  RWIX
 
@@ -78,79 +78,78 @@ section   page    origin      length       input sections
                   000002b0    00000002     rts430_eabi.lib : boot.obj (.stack)
                   000002b2    0000004e     --HOLE--
 
-.text      0    0000c000    00000b52     
-                  0000c000    000000c4     Time.obj (.text:CalcBreathTime)
-                  0000c0c4    0000009e     Data.obj (.text:SendData)
-                  0000c162    0000008c     Count.obj (.text:ResultCalc)
-                  0000c1ee    00000068     UART_init.obj (.text:USCI0RX_ISR)
-                  0000c256    0000005e     SPI.obj (.text:SPI_init)
-                  0000c2b4    0000005e     rts430_eabi.lib : copy_decompress_rle.obj (.text:__TI_decompress_rle_core)
-                  0000c312    0000005e                     : autoinit.obj (.text:_auto_init)
-                  0000c370    00000056     UART_Event.obj (.text:Command_match)
-                  0000c3c6    00000056     UART_init.obj (.text:USCI0TX_ISR)
-                  0000c41c    00000052     Data.obj (.text:Pop)
-                  0000c46e    00000050     AT45DB081.obj (.text:FlashBuffer2Read)
-                  0000c4be    0000004c     rts430_eabi.lib : lsr16.obj (.text)
-                  0000c50a    0000004a     AT45DB081.obj (.text:FlashBuffer1Write)
-                  0000c554    0000004a     Data.obj (.text:Push)
-                  0000c59e    00000046     memorizer.obj (.text:write_16)
-                  0000c5e4    00000044     memorizer.obj (.text:read_16)
-                  0000c628    00000042     UART_FIFO.obj (.text:Tx_FIFO_WriteChar)
-                  0000c66a    00000040     Interrupt.obj (.text:TA0_ISR)
-                  0000c6aa    0000003e     AT45DB081.obj (.text:FlashBuffer1ProgAutoErase)
-                  0000c6e8    0000003e     AT45DB081.obj (.text:PageToBuffer2)
-                  0000c726    0000003c     UART_Event.obj (.text:UART_OnRx)
-                  0000c762    00000038     SPI.obj (.text:SPI_RxFrame)
-                  0000c79a    00000038     SPI.obj (.text:SPI_TxFrame)
-                  0000c7d2    00000032     UART_FIFO.obj (.text:Rx_FIFO_WriteChar)
-                  0000c804    00000032     UART_FIFO.obj (.text:Tx_FIFO_ReadChar)
-                  0000c836    00000032     UART_init.obj (.text:USCI_A0_init)
-                  0000c868    0000002e     Interrupt.obj (.text:P1_IODect)
-                  0000c896    00000028     Init.obj (.text:BCSplus_init)
-                  0000c8be    00000028     AT45DB081.obj (.text:GetFlashStatus)
-                  0000c8e6    00000022     SPI.obj (.text:SPI_Interrupt_Sel)
-                  0000c908    0000001e     Count.obj (.text:FlagPlus)
-                  0000c926    0000001c     Init.obj (.text:ALL_Init)
-                  0000c942    0000001c     Data.obj (.text:ReadPointer)
-                  0000c95e    0000001c     Count.obj (.text:SaveDrawToArray)
-                  0000c97a    0000001c     Data.obj (.text:SavePointer)
-                  0000c996    0000001c     Count.obj (.text:SaveShrinkToArray)
-                  0000c9b2    0000001a     UART_Event.obj (.text:UART_SendString)
-                  0000c9cc    0000001a     rts430_eabi.lib : boot.obj (.text:_c_int00_noexit)
-                  0000c9e6    00000018     Count.obj (.text:FlagSub)
-                  0000c9fe    00000018     Init.obj (.text:TA0_Init)
-                  0000ca16    00000016     Time.obj (.text:Real_Time)
-                  0000ca2c    00000016     UART_Event.obj (.text:UART_OnTx)
-                  0000ca42    00000016     rts430_eabi.lib : div16u.obj (.text)
-                  0000ca58    00000014     memorizer.obj (.text:AT45DB081_init)
-                  0000ca6c    00000014     Init.obj (.text:GPIO_Init)
-                  0000ca80    00000014     UART_FIFO.obj (.text:Rx_FIFO_Clear)
-                  0000ca94    00000014     UART_FIFO.obj (.text:Tx_FIFO_Clear)
-                  0000caa8    00000014     rts430_eabi.lib : copy_zero_init.obj (.text:decompress:ZI:__TI_zero_init)
-                  0000cabc    00000014                     : mult16.obj (.text)
-                  0000cad0    00000012     SPI.obj (.text:SPI_HighSpeed)
-                  0000cae2    00000012     rts430_eabi.lib : copy_decompress_none.obj (.text:decompress:none:__TI_decompress_none)
-                  0000caf4    00000012     main.obj (.text:main)
-                  0000cb06    00000012     rts430_eabi.lib : memcpy.obj (.text:memcpy)
-                  0000cb18    00000010                     : epilog.obj (.text)
-                  0000cb28    0000000c     Data.obj (.text:FlushFlash)
-                  0000cb34    00000008     SPI.obj (.text:SPI_CS_High)
-                  0000cb3c    00000008     SPI.obj (.text:SPI_CS_Low)
-                  0000cb44    00000006     rts430_eabi.lib : copy_decompress_rle.obj (.text:decompress:rle24:__TI_decompress_rle24)
-                  0000cb4a    00000004                     : pre_init.obj (.text:_system_pre_init)
-                  0000cb4e    00000004                     : exit.obj (.text:abort)
+.text      0    0000c000    00000b50     
+                  0000c000    000000b0     Time.obj (.text:CalcBreathTime)
+                  0000c0b0    0000009c     Data.obj (.text:SendData)
+                  0000c14c    0000008c     Count.obj (.text:ResultCalc)
+                  0000c1d8    00000068     UART_init.obj (.text:USCI0RX_ISR)
+                  0000c240    0000005e     SPI.obj (.text:SPI_init)
+                  0000c29e    0000005e     rts430_eabi.lib : copy_decompress_rle.obj (.text:__TI_decompress_rle_core)
+                  0000c2fc    0000005e                     : autoinit.obj (.text:_auto_init)
+                  0000c35a    00000056     UART_Event.obj (.text:Command_match)
+                  0000c3b0    00000056     UART_init.obj (.text:USCI0TX_ISR)
+                  0000c406    00000052     Data.obj (.text:Pop)
+                  0000c458    00000050     AT45DB081.obj (.text:FlashBuffer2Read)
+                  0000c4a8    0000004c     rts430_eabi.lib : lsr16.obj (.text)
+                  0000c4f4    0000004a     AT45DB081.obj (.text:FlashBuffer1Write)
+                  0000c53e    0000004a     Data.obj (.text:Push)
+                  0000c588    00000046     memorizer.obj (.text:write_16)
+                  0000c5ce    00000044     memorizer.obj (.text:read_16)
+                  0000c612    00000042     UART_FIFO.obj (.text:Tx_FIFO_WriteChar)
+                  0000c654    0000003e     AT45DB081.obj (.text:FlashBuffer1ProgAutoErase)
+                  0000c692    0000003e     AT45DB081.obj (.text:PageToBuffer2)
+                  0000c6d0    0000003c     Interrupt.obj (.text:TA0_ISR)
+                  0000c70c    0000003c     UART_Event.obj (.text:UART_OnRx)
+                  0000c748    00000038     SPI.obj (.text:SPI_RxFrame)
+                  0000c780    00000038     SPI.obj (.text:SPI_TxFrame)
+                  0000c7b8    00000032     UART_FIFO.obj (.text:Rx_FIFO_WriteChar)
+                  0000c7ea    00000032     UART_FIFO.obj (.text:Tx_FIFO_ReadChar)
+                  0000c81c    00000032     UART_init.obj (.text:USCI_A0_init)
+                  0000c84e    0000002e     Interrupt.obj (.text:P1_IODect)
+                  0000c87c    0000002e     Init.obj (.text:TA0_Init)
+                  0000c8aa    00000028     Init.obj (.text:BCSplus_init)
+                  0000c8d2    00000028     AT45DB081.obj (.text:GetFlashStatus)
+                  0000c8fa    00000028     Interrupt.obj (.text:TA1_ISR)
+                  0000c922    00000022     SPI.obj (.text:SPI_Interrupt_Sel)
+                  0000c944    0000001e     Count.obj (.text:FlagPlus)
+                  0000c962    0000001c     Data.obj (.text:ReadPointer)
+                  0000c97e    0000001c     Count.obj (.text:SaveDrawToArray)
+                  0000c99a    0000001c     Data.obj (.text:SavePointer)
+                  0000c9b6    0000001c     Count.obj (.text:SaveShrinkToArray)
+                  0000c9d2    0000001a     UART_Event.obj (.text:UART_SendString)
+                  0000c9ec    0000001a     rts430_eabi.lib : boot.obj (.text:_c_int00_noexit)
+                  0000ca06    00000018     Init.obj (.text:ALL_Init)
+                  0000ca1e    00000018     Count.obj (.text:FlagSub)
+                  0000ca36    00000016     Time.obj (.text:Real_Time)
+                  0000ca4c    00000016     UART_Event.obj (.text:UART_OnTx)
+                  0000ca62    00000014     memorizer.obj (.text:AT45DB081_init)
+                  0000ca76    00000014     Init.obj (.text:GPIO_Init)
+                  0000ca8a    00000014     UART_FIFO.obj (.text:Rx_FIFO_Clear)
+                  0000ca9e    00000014     UART_FIFO.obj (.text:Tx_FIFO_Clear)
+                  0000cab2    00000014     rts430_eabi.lib : copy_zero_init.obj (.text:decompress:ZI:__TI_zero_init)
+                  0000cac6    00000014                     : mult16.obj (.text)
+                  0000cada    00000012     SPI.obj (.text:SPI_HighSpeed)
+                  0000caec    00000012     rts430_eabi.lib : copy_decompress_none.obj (.text:decompress:none:__TI_decompress_none)
+                  0000cafe    00000012     main.obj (.text:main)
+                  0000cb10    00000012     rts430_eabi.lib : memcpy.obj (.text:memcpy)
+                  0000cb22    00000010                     : epilog.obj (.text)
+                  0000cb32    00000008     SPI.obj (.text:SPI_CS_High)
+                  0000cb3a    00000008     SPI.obj (.text:SPI_CS_Low)
+                  0000cb42    00000006     rts430_eabi.lib : copy_decompress_rle.obj (.text:decompress:rle24:__TI_decompress_rle24)
+                  0000cb48    00000004                     : pre_init.obj (.text:_system_pre_init)
+                  0000cb4c    00000004                     : exit.obj (.text:abort)
 
-.const     0    0000cb52    0000000e     
-                  0000cb52    00000007     Data.obj (.const:.string)
-                  0000cb59    00000001     --HOLE-- [fill = 0]
-                  0000cb5a    00000006     UART_Event.obj (.const:.string:strERR)
+.const     0    0000cb50    0000000e     
+                  0000cb50    00000007     Data.obj (.const:.string)
+                  0000cb57    00000001     --HOLE-- [fill = 0]
+                  0000cb58    00000006     UART_Event.obj (.const:.string:strERR)
 
-.cinit     0    0000cb60    00000030     
-                  0000cb60    0000001d     (.cinit..data.load) [load image, compression = rle]
-                  0000cb7d    00000001     --HOLE-- [fill = 0]
-                  0000cb7e    00000006     (__TI_handler_table)
-                  0000cb84    00000004     (.cinit..bss.load) [load image, compression = zero_init]
-                  0000cb88    00000008     (__TI_cinit_table)
+.cinit     0    0000cb5e    00000030     
+                  0000cb5e    0000001d     (.cinit..data.load) [load image, compression = rle]
+                  0000cb7b    00000001     --HOLE-- [fill = 0]
+                  0000cb7c    00000006     (__TI_handler_table)
+                  0000cb82    00000004     (.cinit..bss.load) [load image, compression = zero_init]
+                  0000cb86    00000008     (__TI_cinit_table)
 
 USCIAB0TX 
 *          0    0000ffec    00000002     
@@ -164,20 +163,24 @@ TIMER0_A0
 *          0    0000fff2    00000002     
                   0000fff2    00000002     Interrupt.obj (.int09)
 
+TIMER1_A0 
+*          0    0000fffa    00000002     
+                  0000fffa    00000002     Interrupt.obj (.int13)
+
 .reset     0    0000fffe    00000002     
                   0000fffe    00000002     rts430_eabi.lib : boot.obj (.reset)
 
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 0000cb88 records: 2, size/record: 4, table size: 8
-	.data: load addr=0000cb60, load size=0000001d bytes, run addr=00000200, run size=0000009b bytes, compression=rle
-	.bss: load addr=0000cb84, load size=00000004 bytes, run addr=0000029c, run size=0000000c bytes, compression=zero_init
+__TI_cinit_table @ 0000cb86 records: 2, size/record: 4, table size: 8
+	.data: load addr=0000cb5e, load size=0000001d bytes, run addr=00000200, run size=0000009b bytes, compression=rle
+	.bss: load addr=0000cb82, load size=00000004 bytes, run addr=0000029c, run size=0000000c bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 0000cb7e records: 3, size/record: 2, table size: 6
+__TI_handler_table @ 0000cb7c records: 3, size/record: 2, table size: 6
 	index: 0, handler: __TI_zero_init
 	index: 1, handler: __TI_decompress_rle24
 	index: 2, handler: __TI_decompress_none
@@ -194,16 +197,16 @@ address    name
 00000049   ADC10DTC1
 000001b4   ADC10MEM
 000001bc   ADC10SA
-0000c926   ALL_Init
-0000ca58   AT45DB081_init
+0000ca06   ALL_Init
+0000ca62   AT45DB081_init
 00000057   BCSCTL1
 00000058   BCSCTL2
 00000053   BCSCTL3
-0000c896   BCSplus_init
+0000c8aa   BCSplus_init
 00000252   BState
-0000c836   Bluetooth_Init
+0000c81c   Bluetooth_Init
 00000266   BreathTime
-0000cb4e   C$$EXIT
+0000cb4c   C$$EXIT
 00000059   CACTL1
 0000005a   CACTL2
 000010fb   CALBC1_12MHZ
@@ -217,7 +220,7 @@ address    name
 0000005b   CAPD
 0000029c   CMD
 0000c000   CalcBreathTime
-0000c370   Command_match
+0000c35a   Command_match
 00000248   CountDraw
 00000240   CountDrawLen
 0000024a   CountShrink
@@ -228,14 +231,13 @@ address    name
 0000012a   FCTL2
 0000012c   FCTL3
 00000244   Flag
-0000c908   FlagPlus
-0000c9e6   FlagSub
-0000c6aa   FlashBuffer1ProgAutoErase
-0000c50a   FlashBuffer1Write
-0000c46e   FlashBuffer2Read
-0000cb28   FlushFlash
-0000ca6c   GPIO_Init
-0000c8be   GetFlashStatus
+0000c944   FlagPlus
+0000ca1e   FlagSub
+0000c654   FlashBuffer1ProgAutoErase
+0000c4f4   FlashBuffer1Write
+0000c458   FlashBuffer2Read
+0000ca76   GPIO_Init
+0000c8d2   GetFlashStatus
 00000000   IE1
 00000001   IE2
 00000002   IFG1
@@ -249,7 +251,7 @@ address    name
 00000027   P1REN
 00000026   P1SEL
 00000041   P1SEL2
-0000c868   P1_IODect
+0000c84e   P1_IODect
 0000002a   P2DIR
 0000002d   P2IE
 0000002c   P2IES
@@ -265,35 +267,35 @@ address    name
 00000010   P3REN
 0000001b   P3SEL
 00000043   P3SEL2
-0000c6e8   PageToBuffer2
-0000c41c   Pop
-0000c554   Push
-0000c942   ReadPointer
-0000ca16   Real_Time
-0000c162   ResultCalc
+0000c692   PageToBuffer2
+0000c406   Pop
+0000c53e   Push
+0000c962   ReadPointer
+0000ca36   Real_Time
+0000c14c   ResultCalc
 00000256   Rx_FIFO
-0000ca80   Rx_FIFO_Clear
+0000ca8a   Rx_FIFO_Clear
 0000028a   Rx_FIFO_DataNum
 0000028b   Rx_FIFO_IndexR
 0000028c   Rx_FIFO_IndexW
-0000c7d2   Rx_FIFO_WriteChar
-0000cb34   SPI_CS_High
-0000cb3c   SPI_CS_Low
-0000cad0   SPI_HighSpeed
-0000c8e6   SPI_Interrupt_Sel
-0000c762   SPI_RxFrame
+0000c7b8   Rx_FIFO_WriteChar
+0000cb32   SPI_CS_High
+0000cb3a   SPI_CS_Low
+0000cada   SPI_HighSpeed
+0000c922   SPI_Interrupt_Sel
+0000c748   SPI_RxFrame
 000002a4   SPI_Rx_Buffer
 00000296   SPI_Rx_Or_Tx
 00000295   SPI_Rx_Size
-0000c79a   SPI_TxFrame
+0000c780   SPI_TxFrame
 000002a2   SPI_Tx_Buffer
 00000294   SPI_Tx_Size
-0000c256   SPI_init
-0000c95e   SaveDrawToArray
-0000c97a   SavePointer
-0000c996   SaveShrinkToArray
+0000c240   SPI_init
+0000c97e   SaveDrawToArray
+0000c99a   SavePointer
+0000c9b6   SaveShrinkToArray
 0000024c   Second
-0000c0c4   SendData
+0000c0b0   SendData
 00000172   TA0CCR0
 00000174   TA0CCR1
 00000176   TA0CCR2
@@ -303,8 +305,8 @@ address    name
 00000160   TA0CTL
 0000012e   TA0IV
 00000170   TA0R
-0000c66a   TA0_ISR
-0000c9fe   TA0_Init
+0000c6d0   TA0_ISR
+0000c87c   TA0_Init
 00000192   TA1CCR0
 00000194   TA1CCR1
 00000196   TA1CCR2
@@ -314,19 +316,20 @@ address    name
 00000180   TA1CTL
 0000011e   TA1IV
 00000190   TA1R
+0000c8fa   TA1_ISR
 00000246   Temp
 0000024e   Timmer_Cycle
 00000250   TransmitMode
 00000200   Tx_FIFO
-0000ca94   Tx_FIFO_Clear
+0000ca9e   Tx_FIFO_Clear
 0000028d   Tx_FIFO_DataNum
 0000028e   Tx_FIFO_IndexR
 0000028f   Tx_FIFO_IndexW
-0000c804   Tx_FIFO_ReadChar
-0000c628   Tx_FIFO_WriteChar
-0000c726   UART_OnRx
-0000ca2c   UART_OnTx
-0000c9b2   UART_SendString
+0000c7ea   Tx_FIFO_ReadChar
+0000c612   Tx_FIFO_WriteChar
+0000c70c   UART_OnRx
+0000ca4c   UART_OnTx
+0000c9d2   UART_SendString
 0000005d   UCA0ABCTL
 00000062   UCA0BR0
 00000063   UCA0BR1
@@ -348,69 +351,67 @@ address    name
 0000006e   UCB0RXBUF
 0000006d   UCB0STAT
 0000006f   UCB0TXBUF
-0000c1ee   USCI0RX_ISR
-0000c3c6   USCI0TX_ISR
-0000c836   USCI_A0_init
+0000c1d8   USCI0RX_ISR
+0000c3b0   USCI0TX_ISR
+0000c81c   USCI_A0_init
 00000120   WDTCTL
 00000300   __STACK_END
 00000050   __STACK_SIZE
-0000cb88   __TI_CINIT_Base
-0000cb90   __TI_CINIT_Limit
-0000cb7e   __TI_Handler_Table_Base
-0000cb84   __TI_Handler_Table_Limit
+0000cb86   __TI_CINIT_Base
+0000cb8e   __TI_CINIT_Limit
+0000cb7c   __TI_Handler_Table_Base
+0000cb82   __TI_Handler_Table_Limit
 UNDEFED    __TI_INITARRAY_Base
 UNDEFED    __TI_INITARRAY_Limit
 00000001   __TI_args_main
-0000cae2   __TI_decompress_none
-0000cb44   __TI_decompress_rle24
+0000caec   __TI_decompress_none
+0000cb42   __TI_decompress_rle24
 00000001   __TI_exit
-0000caa8   __TI_zero_init
+0000cab2   __TI_zero_init
 ffffffff   __binit__
 ffffffff   __c_args__
-0000ca42   __mspabi_divu
-0000cb24   __mspabi_func_epilog_1
-0000cb22   __mspabi_func_epilog_2
-0000cb20   __mspabi_func_epilog_3
-0000cb1e   __mspabi_func_epilog_4
-0000cb1c   __mspabi_func_epilog_5
-0000cb1a   __mspabi_func_epilog_6
-0000cb18   __mspabi_func_epilog_7
-0000cabc   __mspabi_mpyi
-0000ca42   __mspabi_remu
-0000c4be   __mspabi_srli
-0000c504   __mspabi_srli_1
-0000c4e0   __mspabi_srli_10
-0000c4dc   __mspabi_srli_11
-0000c4d8   __mspabi_srli_12
-0000c4d4   __mspabi_srli_13
-0000c4d0   __mspabi_srli_14
-0000c4cc   __mspabi_srli_15
-0000c500   __mspabi_srli_2
-0000c4fc   __mspabi_srli_3
-0000c4f8   __mspabi_srli_4
-0000c4f4   __mspabi_srli_5
-0000c4f0   __mspabi_srli_6
-0000c4ec   __mspabi_srli_7
-0000c4e8   __mspabi_srli_8
-0000c4e4   __mspabi_srli_9
-0000c312   _auto_init
-0000c9cc   _c_int00
-0000c9cc   _c_int00_noexit
+0000cb2e   __mspabi_func_epilog_1
+0000cb2c   __mspabi_func_epilog_2
+0000cb2a   __mspabi_func_epilog_3
+0000cb28   __mspabi_func_epilog_4
+0000cb26   __mspabi_func_epilog_5
+0000cb24   __mspabi_func_epilog_6
+0000cb22   __mspabi_func_epilog_7
+0000cac6   __mspabi_mpyi
+0000c4a8   __mspabi_srli
+0000c4ee   __mspabi_srli_1
+0000c4ca   __mspabi_srli_10
+0000c4c6   __mspabi_srli_11
+0000c4c2   __mspabi_srli_12
+0000c4be   __mspabi_srli_13
+0000c4ba   __mspabi_srli_14
+0000c4b6   __mspabi_srli_15
+0000c4ea   __mspabi_srli_2
+0000c4e6   __mspabi_srli_3
+0000c4e2   __mspabi_srli_4
+0000c4de   __mspabi_srli_5
+0000c4da   __mspabi_srli_6
+0000c4d6   __mspabi_srli_7
+0000c4d2   __mspabi_srli_8
+0000c4ce   __mspabi_srli_9
+0000c2fc   _auto_init
+0000c9ec   _c_int00
+0000c9ec   _c_int00_noexit
 0000fffe   _reset_vector
 000002b0   _stack
-0000cb4a   _system_pre_init
-0000cb4e   abort
+0000cb48   _system_pre_init
+0000cb4c   abort
 00000270   arrayDrawResultLen
 0000027a   arrayShrinkResultLen
 ffffffff   binit
 00000254   isInTimmer
-0000caf4   main
-0000cb06   memcpy
+0000cafe   main
+0000cb10   memcpy
 00000284   pageIndex
 00000286   pageOffsetIndex
-0000c5e4   read_16
-0000cb5a   strERR
-0000c59e   write_16
+0000c5ce   read_16
+0000cb58   strERR
+0000c588   write_16
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -547,94 +548,92 @@ address    name
 000010fe   CALDCO_1MHZ
 000010ff   CALBC1_1MHZ
 0000c000   CalcBreathTime
-0000c0c4   SendData
-0000c162   ResultCalc
-0000c1ee   USCI0RX_ISR
-0000c256   SPI_init
-0000c312   _auto_init
-0000c370   Command_match
-0000c3c6   USCI0TX_ISR
-0000c41c   Pop
-0000c46e   FlashBuffer2Read
-0000c4be   __mspabi_srli
-0000c4cc   __mspabi_srli_15
-0000c4d0   __mspabi_srli_14
-0000c4d4   __mspabi_srli_13
-0000c4d8   __mspabi_srli_12
-0000c4dc   __mspabi_srli_11
-0000c4e0   __mspabi_srli_10
-0000c4e4   __mspabi_srli_9
-0000c4e8   __mspabi_srli_8
-0000c4ec   __mspabi_srli_7
-0000c4f0   __mspabi_srli_6
-0000c4f4   __mspabi_srli_5
-0000c4f8   __mspabi_srli_4
-0000c4fc   __mspabi_srli_3
-0000c500   __mspabi_srli_2
-0000c504   __mspabi_srli_1
-0000c50a   FlashBuffer1Write
-0000c554   Push
-0000c59e   write_16
-0000c5e4   read_16
-0000c628   Tx_FIFO_WriteChar
-0000c66a   TA0_ISR
-0000c6aa   FlashBuffer1ProgAutoErase
-0000c6e8   PageToBuffer2
-0000c726   UART_OnRx
-0000c762   SPI_RxFrame
-0000c79a   SPI_TxFrame
-0000c7d2   Rx_FIFO_WriteChar
-0000c804   Tx_FIFO_ReadChar
-0000c836   Bluetooth_Init
-0000c836   USCI_A0_init
-0000c868   P1_IODect
-0000c896   BCSplus_init
-0000c8be   GetFlashStatus
-0000c8e6   SPI_Interrupt_Sel
-0000c908   FlagPlus
-0000c926   ALL_Init
-0000c942   ReadPointer
-0000c95e   SaveDrawToArray
-0000c97a   SavePointer
-0000c996   SaveShrinkToArray
-0000c9b2   UART_SendString
-0000c9cc   _c_int00
-0000c9cc   _c_int00_noexit
-0000c9e6   FlagSub
-0000c9fe   TA0_Init
-0000ca16   Real_Time
-0000ca2c   UART_OnTx
-0000ca42   __mspabi_divu
-0000ca42   __mspabi_remu
-0000ca58   AT45DB081_init
-0000ca6c   GPIO_Init
-0000ca80   Rx_FIFO_Clear
-0000ca94   Tx_FIFO_Clear
-0000caa8   __TI_zero_init
-0000cabc   __mspabi_mpyi
-0000cad0   SPI_HighSpeed
-0000cae2   __TI_decompress_none
-0000caf4   main
-0000cb06   memcpy
-0000cb18   __mspabi_func_epilog_7
-0000cb1a   __mspabi_func_epilog_6
-0000cb1c   __mspabi_func_epilog_5
-0000cb1e   __mspabi_func_epilog_4
-0000cb20   __mspabi_func_epilog_3
-0000cb22   __mspabi_func_epilog_2
-0000cb24   __mspabi_func_epilog_1
-0000cb28   FlushFlash
-0000cb34   SPI_CS_High
-0000cb3c   SPI_CS_Low
-0000cb44   __TI_decompress_rle24
-0000cb4a   _system_pre_init
-0000cb4e   C$$EXIT
-0000cb4e   abort
-0000cb5a   strERR
-0000cb7e   __TI_Handler_Table_Base
-0000cb84   __TI_Handler_Table_Limit
-0000cb88   __TI_CINIT_Base
-0000cb90   __TI_CINIT_Limit
+0000c0b0   SendData
+0000c14c   ResultCalc
+0000c1d8   USCI0RX_ISR
+0000c240   SPI_init
+0000c2fc   _auto_init
+0000c35a   Command_match
+0000c3b0   USCI0TX_ISR
+0000c406   Pop
+0000c458   FlashBuffer2Read
+0000c4a8   __mspabi_srli
+0000c4b6   __mspabi_srli_15
+0000c4ba   __mspabi_srli_14
+0000c4be   __mspabi_srli_13
+0000c4c2   __mspabi_srli_12
+0000c4c6   __mspabi_srli_11
+0000c4ca   __mspabi_srli_10
+0000c4ce   __mspabi_srli_9
+0000c4d2   __mspabi_srli_8
+0000c4d6   __mspabi_srli_7
+0000c4da   __mspabi_srli_6
+0000c4de   __mspabi_srli_5
+0000c4e2   __mspabi_srli_4
+0000c4e6   __mspabi_srli_3
+0000c4ea   __mspabi_srli_2
+0000c4ee   __mspabi_srli_1
+0000c4f4   FlashBuffer1Write
+0000c53e   Push
+0000c588   write_16
+0000c5ce   read_16
+0000c612   Tx_FIFO_WriteChar
+0000c654   FlashBuffer1ProgAutoErase
+0000c692   PageToBuffer2
+0000c6d0   TA0_ISR
+0000c70c   UART_OnRx
+0000c748   SPI_RxFrame
+0000c780   SPI_TxFrame
+0000c7b8   Rx_FIFO_WriteChar
+0000c7ea   Tx_FIFO_ReadChar
+0000c81c   Bluetooth_Init
+0000c81c   USCI_A0_init
+0000c84e   P1_IODect
+0000c87c   TA0_Init
+0000c8aa   BCSplus_init
+0000c8d2   GetFlashStatus
+0000c8fa   TA1_ISR
+0000c922   SPI_Interrupt_Sel
+0000c944   FlagPlus
+0000c962   ReadPointer
+0000c97e   SaveDrawToArray
+0000c99a   SavePointer
+0000c9b6   SaveShrinkToArray
+0000c9d2   UART_SendString
+0000c9ec   _c_int00
+0000c9ec   _c_int00_noexit
+0000ca06   ALL_Init
+0000ca1e   FlagSub
+0000ca36   Real_Time
+0000ca4c   UART_OnTx
+0000ca62   AT45DB081_init
+0000ca76   GPIO_Init
+0000ca8a   Rx_FIFO_Clear
+0000ca9e   Tx_FIFO_Clear
+0000cab2   __TI_zero_init
+0000cac6   __mspabi_mpyi
+0000cada   SPI_HighSpeed
+0000caec   __TI_decompress_none
+0000cafe   main
+0000cb10   memcpy
+0000cb22   __mspabi_func_epilog_7
+0000cb24   __mspabi_func_epilog_6
+0000cb26   __mspabi_func_epilog_5
+0000cb28   __mspabi_func_epilog_4
+0000cb2a   __mspabi_func_epilog_3
+0000cb2c   __mspabi_func_epilog_2
+0000cb2e   __mspabi_func_epilog_1
+0000cb32   SPI_CS_High
+0000cb3a   SPI_CS_Low
+0000cb42   __TI_decompress_rle24
+0000cb48   _system_pre_init
+0000cb4c   C$$EXIT
+0000cb4c   abort
+0000cb58   strERR
+0000cb7c   __TI_Handler_Table_Base
+0000cb82   __TI_Handler_Table_Limit
+0000cb86   __TI_CINIT_Base
+0000cb8e   __TI_CINIT_Limit
 0000fffe   _reset_vector
 ffffffff   __binit__
 ffffffff   __c_args__
@@ -642,4 +641,4 @@ ffffffff   binit
 UNDEFED    __TI_INITARRAY_Base
 UNDEFED    __TI_INITARRAY_Limit
 
-[224 symbols]
+[222 symbols]

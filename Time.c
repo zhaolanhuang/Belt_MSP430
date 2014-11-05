@@ -11,7 +11,7 @@ void Real_Time()
 {
 
 	Timmer_Cycle++;
-	if (Timmer_Cycle == 1000000/TIMMER_PERIOD)
+	if (Timmer_Cycle == 10)
 	{
 		Second++;
 		Timmer_Cycle = 0;
@@ -27,15 +27,13 @@ void CalcBreathTime()
 	IE2 &= ~(UCA0RXIE);
 	if(TimeFlag == 0)
 	{
-	BreathTime[BreathTimeIndex] = Second *10+ Timmer_Cycle/200;
+	BreathTime[BreathTimeIndex] = Second *10+ Timmer_Cycle;
 	}
 	if(TimeFlag == 1)
 	{
-	BreathTime[BreathTimeIndex] = (Second *10+ Timmer_Cycle/200) - BreathTime[BreathTimeIndex];
+	BreathTime[BreathTimeIndex] = (Second *10+ Timmer_Cycle) - BreathTime[BreathTimeIndex];
+	SendData(BreathTimeIndex);
 	BreathTimeIndex++;
-
-	SendData();
-
 
 	if(BreathTimeIndex > ARRAYLEN -1)
 		{

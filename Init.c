@@ -28,10 +28,14 @@ void GPIO_Init() //SET P1.3(U1) P1.4(U2) as D_TRigger and CHA input.
 void TA0_Init()
 {
 	TA0CTL = 0;
+	TA1CTL = 0;
+	TA1CCR0 = 12500;//100ms/pulze
+	TA1CCTL0 |= CCIE;
 	TACCTL0 |= CCIE;
-	TA0CTL |= TASSEL_2 + ID_0 + MC_1;
-
 	TACCR0 = TIMMER_PERIOD;//1750,1000
+	TA0CTL |= TASSEL_2 + ID_0 + MC_1;
+	TA1CTL |= TASSEL_2 + ID_3 + MC_1;
+
 }
 
 

@@ -94,7 +94,7 @@ void ReadPointer()
 	read_16(0,0,1,&pageIndex);
 	read_16(0,1,1,&pageOffsetIndex);
 }
-void SendData()
+void SendData(unsigned char _index)
 {
 	unsigned char temp,i;
 	unsigned int itemp;
@@ -109,9 +109,11 @@ void SendData()
 	{
 		if(TransmitMode == REALTIME)
 		{
+			/*
 			for(i=0;i<ARRAYLEN;i++)
 			{
-
+			*/
+				i = _index;
 				temp = BreathTime[i] & 0x00ff;
 				Tx_FIFO_WriteChar(temp);
 				temp = (BreathTime[i]>>8) & 0x00ff;
@@ -124,15 +126,9 @@ void SendData()
 				Tx_FIFO_WriteChar(temp);
 				temp = (arrayShrinkResultLen[i]>>8) & 0x00ff;
 				Tx_FIFO_WriteChar(temp);
-				/*
-				Tx_FIFO_WriteChar(123);
-				Tx_FIFO_WriteChar(456);
-				Tx_FIFO_WriteChar(123);
-				Tx_FIFO_WriteChar(456);
-				Tx_FIFO_WriteChar(123);
-				Tx_FIFO_WriteChar(456);
-		*/
+			/*
 			}
+			*/
 			UART_SendString("READY+");
 		}
 		else if (TransmitMode == HISTORY)

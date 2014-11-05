@@ -22,7 +22,7 @@ extern unsigned int pageOffsetIndex;//页内偏移,range [0,127]
 void Push(unsigned int *data);
 unsigned char Pop(unsigned int *data);
 extern void SaveData();//保存ARRAYLEN组呼吸数据
-extern void SendData();
+extern void SendData(unsigned char _index);
 extern void SavePointer();
 extern void ReadPointer();
 extern void FlushFlash();
