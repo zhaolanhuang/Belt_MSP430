@@ -86,7 +86,8 @@ char Tx_FIFO_WriteChar(unsigned char Data)
 	Tx_FIFO[Tx_FIFO_IndexW]=Data;                      			//将数据写入写读指针位置的FIFO数组
 	Tx_FIFO_IndexW++;                                  					//写指针移位
 	if (Tx_FIFO_IndexW >= TX_FIFO_SIZE)                		//判断指针是否越界
-		Tx_FIFO_IndexW=0;                              					//写指针循环归零
+		Tx_FIFO_IndexW=0;         					//写指针循环归零
+
 	_enable_interrupts();                              					//恢复总中断使能
 	return(1);																	//返回成功
 }

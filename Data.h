@@ -10,6 +10,7 @@
 #include "Global.h"
 #include "Bluetooth.h"
 #include "memorizer.h"
+#include "UART/UART_Event.h"
 /*
 Using Word R/W Mode
 ¶ÑÕ»Ê½²Ù×÷

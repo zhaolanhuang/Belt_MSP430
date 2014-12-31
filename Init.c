@@ -11,8 +11,12 @@ void ALL_Init()
 {
 	BCSplus_init();//Clock System Init
 	GPIO_Init();//I/O Port Init
+#ifdef SAVE
 	AT45DB081_init();//Flash Moudle Init
+	FlushFlash();
 	ReadPointer(); //Read
+
+#endif
 	USCI_A0_init();
 	TA0_Init();//Timmer Init
 }

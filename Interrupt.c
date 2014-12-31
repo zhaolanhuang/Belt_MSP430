@@ -13,14 +13,16 @@ __interrupt void TA0_ISR(void)
 
 	_DINT();
 	TACCTL0 &= ~CCIE;//Stop Timmer
+	TA1CCTL0 &= ~CCIE;
 	isInTimmer = 1;
 	TA0CTL &= ~TAIFG;
 	TACCTL0 &= ~CCIFG;
 	//Real_Time();
 
 	P1_IODect();//IO…®√Ë
-
+	_DINT();
 	TACCTL0 |= CCIE;
+	TA1CCTL0 |= CCIE;
 	isInTimmer = 0;
 	_EINT();
 }
@@ -28,10 +30,24 @@ __interrupt void TA0_ISR(void)
 __interrupt void TA1_ISR(void)
 {
 
-	_DINT();
-	Real_Time();
+	/*_DINT();
 	TA1CTL &= ~TAIFG;
 	TA1CCTL0 &= ~CCIFG;
+	Real_Time();
+
+	_EINT();
+	*/
+	_DINT();
+	TACCTL0 &= ~CCIE;//Stop Timmer
+	TA1CCTL0 &= ~CCIE;
+	isInTimmer = 1;
+	TA0CTL &= ~TAIFG;
+	TACCTL0 &= ~CCIFG;
+	Real_Time();
+	_DINT();
+	TACCTL0 |= CCIE;
+	TA1CCTL0 |= CCIE;
+	isInTimmer = 0;
 	_EINT();
 }
 void P1_IODect()

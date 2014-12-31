@@ -14,7 +14,7 @@
 const unsigned char strERR[] = "ERR+\0";
 const unsigned char strACKQ[] = "ACKQ+\0";
 const unsigned char strREADY[] = "READY+\0";
-
+const unsigned char strSTAMP[] = "STAMP+\0";
 void Command_match();  // 字符匹配命令函数
 /******************************************************************************************************
  * 名       称：UART_OnTx()
@@ -87,8 +87,11 @@ void UART_SendString(const unsigned char *Ptr) //给上位机发送字符串
 	{
 
 	    //__delay_cycles(100);//延时 等待蓝牙模块响应
+		if(Tx_FIFO_WriteChar(*Ptr) == 1)
+		{
+			Ptr++;
+		}
 
-		Tx_FIFO_WriteChar(*Ptr++);
 	}
 
 	Tx_FIFO_Clear();
@@ -105,7 +108,7 @@ void Command_match()  // 字符匹配命令
 {
 	if(Rx_FIFO[0] == 'R' && Rx_FIFO[1] == 'S' && Rx_FIFO[2] == 'T')
 	{
-	//	UART_SendString(strACKQ);
+		//UART_SendString(strACKQ);
 		BState = IDLE;
 		return;
 	}
@@ -188,7 +191,7 @@ void Command_match()  // 字符匹配命令
 		if(Rx_FIFO[0] == 'A' && Rx_FIFO[1] == 'C' && Rx_FIFO[2] == 'K' && Rx_FIFO[3] == 'Q')
 
 		{
-			/*if(TransmitMode == REALTIME)
+			if(TransmitMode == REALTIME)
 			{
 				UART_SendString("HELLO+\0");
 				return;

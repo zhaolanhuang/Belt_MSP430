@@ -129,24 +129,37 @@ void SendData(unsigned char _index)
 			/*
 			}
 			*/
-			UART_SendString("READY+");
+			UART_SendString(strREADY);
 		}
 		else if (TransmitMode == HISTORY)
 		{
-			i = 0;
+			if(pageIndex == 0 && pageOffsetIndex == OFFSETBASE+1)
+			{
+				UART_SendString("EMPTY+");
+				TransmitMode = REALTIME;
+				return;
+			}
+
 			while(!Pop(&itemp))
 			{
+				/*if(TIMESTAMP == itemp)
+				{
+					UART_SendString(strSTAMP);
+					continue;
+				}*/
 				temp = itemp & 0x00ff;
 				Tx_FIFO_WriteChar(temp);
 				temp = (itemp >>8)& 0x00ff;
 				Tx_FIFO_WriteChar(temp);
 				i++;
-				if(i == 15)
+				if(i == 3)
 				{
-					UART_SendString("READY+");
+					UART_SendString(strREADY);
 					i = 0;
 				}
 			}
+			UART_SendString("EMPTY-");
+			TransmitMode = REALTIME;
 		}
 	//BState = IDLE;
 	}

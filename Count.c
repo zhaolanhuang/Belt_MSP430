@@ -8,6 +8,7 @@
 
 void FlagPlus()
 {
+	//Tick[0]++;
 	if (Flag >= FLAGMAX)
 	{
 		Flag = FLAGMAX;
@@ -22,6 +23,7 @@ void FlagPlus()
 }
 void FlagSub()
 {
+	//Tick[1]++;
 	if (Flag <=FLAGMIN)
 	{
 		Flag =FLAGMIN;
@@ -35,39 +37,49 @@ void FlagSub()
 }
 void ResultCalc()
 {
-	static unsigned char Flag_Past=(FLAGMAX-FLAGMIN)/2;	//变量值出函数时需保留
+	static unsigned char Flag_Past= (FLAGMAX-FLAGMIN)/2;	//变量值出函数时需保留
 	unsigned int ShrinkResultLen = 0;
 	unsigned int DrawResultLen = 0;
+	static unsigned char isCount = 0;
 	if (Flag == FLAGMAX && Flag_Past == FLAGMIN)//Shrink Over
 	{
 		
 		ShrinkResultLen = CountShrinkLen + Temp - (FLAGMAX - FLAGMIN - 1);
-		SaveShrinkToArray(ShrinkResultLen);
+		if(isCount == 1)
+		{
+			SaveShrinkToArray(ShrinkResultLen);
+		}
+
 		CalcBreathTime();
+		isCount = 1;
 		CountShrinkLen = 0;
 		CountDrawLen = CountDrawLen + (FLAGMAX - FLAGMIN - 1);
 		Temp = 0;
 		CountShrink++;
 
+
 	}
-	if (Flag == FLAGMIN && Flag_Past == FLAGMAX)//Draw Over
+	else if (Flag == FLAGMIN && Flag_Past == FLAGMAX)//Draw Over
 	{
 		
 		DrawResultLen = CountDrawLen + Temp- (FLAGMAX - FLAGMIN - 1);
-		SaveDrawToArray(DrawResultLen);
-		CalcBreathTime();
+		if(isCount == 1)
+		{
+			SaveDrawToArray(DrawResultLen);
+		}
+
 		CountDrawLen = 0;
 		CountShrinkLen = CountShrinkLen + (FLAGMAX - FLAGMIN - 1);
 		Temp = 0;
 		CountDraw++;
 
 	}
-	if (Flag == FLAGMIN && Flag_Past == FLAGMIN)//Shrinking
+	else if (Flag == FLAGMIN && Flag_Past == FLAGMIN)//Shrinking
 	{
 		CountShrinkLen++;
 
 	}
-	if (Flag == FLAGMAX && Flag_Past == FLAGMAX)//Shrinking
+	else if (Flag == FLAGMAX && Flag_Past == FLAGMAX)//Shrinking
 	{
 		CountDrawLen++;
 

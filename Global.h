@@ -29,9 +29,10 @@ extern unsigned char Flag;//Flag round [FLAGMIN,FLAGMAX].FLAGMIN means Shrinking
 extern unsigned int Temp;//When Flag round (FLAGMIN,FLAGMAX) whatever Shrinking or Drawing Temp++
 extern unsigned int CountDraw;
 extern unsigned int CountShrink;
-extern unsigned short Second;
-extern unsigned int Timmer_Cycle;
+extern unsigned int Second;
+extern unsigned char Timmer_Cycle;
 extern unsigned char isInTimmer;//0 no,1 yes
+extern unsigned char Tick[];
 #define REALTIME 1
 #define HISTORY 0
 #define IDLE 0
@@ -40,6 +41,7 @@ extern unsigned char isInTimmer;//0 no,1 yes
 #define BTEST 3
 #define SEND 4
 #define PRESEND 5
+#define TIMESTAMP 0xFFFF
 extern unsigned char TransmitMode;
-extern unsigned int BState;
+extern unsigned char BState;
 #endif /* GLOBAL_H_ */
