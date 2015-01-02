@@ -37,7 +37,7 @@ void FlagSub()
 }
 void ResultCalc()
 {
-	static unsigned char Flag_Past= (FLAGMAX-FLAGMIN)/2;	//变量值出函数时需保留
+	static unsigned char Flag_Past= (FLAGMAX-FLAGMIN)/2;	//鍙橀噺鍊煎嚭鍑芥暟鏃堕渶淇濈暀
 	unsigned int ShrinkResultLen = 0;
 	unsigned int DrawResultLen = 0;
 	static unsigned char isCount = 0;

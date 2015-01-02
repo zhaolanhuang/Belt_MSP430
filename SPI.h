@@ -8,8 +8,8 @@
 #ifndef SPI_H_
 #define SPI_H_
 
-#define	HARD_SPI	//Ìõ¼ş±àÒë£¬HARD_SPIÆôÓÃÓ²¼şSPI´úÂë
-//#define	SOFT_SPI			//Ìõ¼ş±àÒë£¬SOFT_SPIÆôÓÃÈí¼şSPI´úÂë
+#define	HARD_SPI	//æ¡ä»¶ç¼–è¯‘ï¼ŒHARD_SPIå¯ç”¨ç¡¬ä»¶SPIä»£ç 
+//#define	SOFT_SPI			//æ¡ä»¶ç¼–è¯‘ï¼ŒSOFT_SPIå¯ç”¨è½¯ä»¶SPIä»£ç 
 extern void SPI_CS_High(void);
 extern void SPI_CS_Low(void);
 extern void SPI_HighSpeed(void);
@@ -23,9 +23,9 @@ extern unsigned char  SPI_Tx_Size;
 extern unsigned char  SPI_Rx_Size;
 extern unsigned char  *SPI_Tx_Buffer;
 extern unsigned char  *SPI_Rx_Buffer;
-//-----¶¨Òå´ı·¢ËÍ/½ÓÊÕµÄ×Ö½ÚÊı-----
+//-----å®šä¹‰å¾…å‘é€/æ¥æ”¶çš„å­—èŠ‚æ•°-----
 extern unsigned char  SPI_Tx_Size;
 extern unsigned char  SPI_Rx_Size;
-//-----¶¨Òå·¢ËÍ/½ÓÊÕÄ£Ê½±êÖ¾-----
+//-----å®šä¹‰å‘é€/æ¥æ”¶æ¨¡å¼æ ‡å¿—-----
 extern unsigned char SPI_Rx_Or_Tx ;
 #endif /* SPI_H_ */

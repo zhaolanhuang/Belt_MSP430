@@ -4,8 +4,8 @@
 unsigned char CMD[5];
 
 
-//»º´æ1Ğ´Ö÷´æ
-void FlashBuffer1ProgNoErase(unsigned int AT450XXPageAddr) //Ö±½Ó½«»º´æ1Ğ´ÈëFlashÒ»Ò³(²»²Á³ı)
+//ç¼“å­˜1å†™ä¸»å­˜
+void FlashBuffer1ProgNoErase(unsigned int AT450XXPageAddr) //ç›´æ¥å°†ç¼“å­˜1å†™å…¥Flashä¸€é¡µ(ä¸æ“¦é™¤)
 {
 
 
@@ -37,16 +37,16 @@ void chip_erase()
 
     SPI_CS_High();
 }
-//Ğ´»º´æ£«²Á³ı£«»º´æĞ´Ö÷´æ
+//å†™ç¼“å­˜ï¼‹æ“¦é™¤ï¼‹ç¼“å­˜å†™ä¸»å­˜
 void FlashAutoProgViaBuffer1(unsigned int AT450XXPageAddr,unsigned int start_addr, unsigned int len,unsigned char *buffer)
-//½«Ö¸¶¨Êı¾İÍ¨¹ı»º´æ1Ğ´ÈëFlashÖ¸¶¨Î»ÖÃ(ÏÈ²Á³ı)
+//å°†æŒ‡å®šæ•°æ®é€šè¿‡ç¼“å­˜1å†™å…¥FlashæŒ‡å®šä½ç½®(å…ˆæ“¦é™¤)
 {
 
     while(!(GetFlashStatus()&128));
     SPI_CS_Low();
 
 
-    CMD[0] = (PAGE_PROG_THROUGH_B1);//»º³åÇø1Îª82H
+    CMD[0] = (PAGE_PROG_THROUGH_B1);//ç¼“å†²åŒº1ä¸º82H
     CMD[1] = ((unsigned char)(AT450XXPageAddr >> 7));
     CMD[2] = ((unsigned char)(AT450XXPageAddr << 1 + start_addr>>8));
     CMD[3] = ((unsigned char)start_addr);
@@ -61,7 +61,7 @@ unsigned char GetFlashStatus()
 {
     unsigned char staus[1];
 
-    SPI_CS_Low();//Ğ¾Æ¬Ñ¡Ôñ
+    SPI_CS_Low();//èŠ¯ç‰‡é€‰æ‹©
     CMD[0] = STATUS_REGISTER;
     SPI_TxFrame(CMD,1);
 
@@ -72,8 +72,8 @@ unsigned char GetFlashStatus()
 
 }
 
-//²Á³ı£«»º´æ1Ğ´Ö÷´æ
-void FlashBuffer1ProgAutoErase(unsigned int AT450XXPageAddr) //Ö±½Ó½«»º´æ1Ğ´ÈëFlashÒ»Ò³(ÏÈ²Á³ı)
+//æ“¦é™¤ï¼‹ç¼“å­˜1å†™ä¸»å­˜
+void FlashBuffer1ProgAutoErase(unsigned int AT450XXPageAddr) //ç›´æ¥å°†ç¼“å­˜1å†™å…¥Flashä¸€é¡µ(å…ˆæ“¦é™¤)
 {
     while(!(GetFlashStatus()&128));
     SPI_CS_Low();
@@ -89,7 +89,7 @@ void FlashBuffer1ProgAutoErase(unsigned int AT450XXPageAddr) //Ö±½Ó½«»º´æ1Ğ´ÈëFl
     SPI_CS_High();
 }
 
-void PageToBuffer2(unsigned int AT450XXPageAddr)    //´ÓFlash¶ÁÒ»Ò³ÖÁ»º´æ2
+void PageToBuffer2(unsigned int AT450XXPageAddr)    //ä»Flashè¯»ä¸€é¡µè‡³ç¼“å­˜2
 {
 
     while(!(GetFlashStatus()&128));
@@ -107,7 +107,7 @@ void PageToBuffer2(unsigned int AT450XXPageAddr)    //´ÓFlash¶ÁÒ»Ò³ÖÁ»º´æ2
 
 }
 
-void PageToBuffer1(unsigned int AT450XXPageAddr)    //´ÓFlash¶ÁÒ»Ò³ÖÁ»º´æ2
+void PageToBuffer1(unsigned int AT450XXPageAddr)    //ä»Flashè¯»ä¸€é¡µè‡³ç¼“å­˜2
 {
 
     while(!(GetFlashStatus()&128));
@@ -125,9 +125,9 @@ void PageToBuffer1(unsigned int AT450XXPageAddr)    //´ÓFlash¶ÁÒ»Ò³ÖÁ»º´æ2
 
 }
 
-//ÆôÓÃ»º´æ2¶Á
+//å¯ç”¨ç¼“å­˜2è¯»
 void FlashBuffer2Read(unsigned int star_addr,unsigned int len, unsigned char *buffer)
-//´Ó»º³åÇø2µÄÖ¸¶¨Î»ÖÃ(0-255)ÖĞ¶ÁÈëÖ¸¶¨×Ö½Ú
+//ä»ç¼“å†²åŒº2çš„æŒ‡å®šä½ç½®(0-255)ä¸­è¯»å…¥æŒ‡å®šå­—èŠ‚
 {
 
     while(!(GetFlashStatus()&128));
@@ -150,9 +150,9 @@ void FlashBuffer2Read(unsigned int star_addr,unsigned int len, unsigned char *bu
     SPI_CS_High();
 
 }
-//ÆôÓÃ»º´æ1¶Á
+//å¯ç”¨ç¼“å­˜1è¯»
 void FlashBuffer1Read(unsigned int star_addr,unsigned int len, unsigned char *buffer)
-//´Ó»º³åÇø1µÄÖ¸¶¨Î»ÖÃ(0-255)ÖĞ¶ÁÈëÖ¸¶¨×Ö½Ú
+//ä»ç¼“å†²åŒº1çš„æŒ‡å®šä½ç½®(0-255)ä¸­è¯»å…¥æŒ‡å®šå­—èŠ‚
 {
 
     while(!(GetFlashStatus()&128));
@@ -176,9 +176,9 @@ void FlashBuffer1Read(unsigned int star_addr,unsigned int len, unsigned char *bu
 
 }
 
-//ÆôÓÃ»º´æ1Ğ´
+//å¯ç”¨ç¼“å­˜1å†™
 void FlashBuffer1Write(unsigned int start_addr, unsigned int len,unsigned char *buffer)
-//Ïò»º³åÇø1µÄÖ¸¶¨Î»ÖÃ(0-255)Ğ´ÈëÖ¸¶¨×Ö½Ú
+//å‘ç¼“å†²åŒº1çš„æŒ‡å®šä½ç½®(0-255)å†™å…¥æŒ‡å®šå­—èŠ‚
 {
     unsigned int i;
 
@@ -197,9 +197,9 @@ void FlashBuffer1Write(unsigned int start_addr, unsigned int len,unsigned char *
 
     SPI_CS_High();
 }
-//ÆôÓÃ»º´æ2Ğ´
+//å¯ç”¨ç¼“å­˜2å†™
 void FlashBuffer2Write(unsigned int start_addr, unsigned int len,unsigned char *buffer)
-//Ïò»º³åÇø2µÄÖ¸¶¨Î»ÖÃ(0-255)Ğ´ÈëÖ¸¶¨×Ö½Ú
+//å‘ç¼“å†²åŒº2çš„æŒ‡å®šä½ç½®(0-255)å†™å…¥æŒ‡å®šå­—èŠ‚
 {
     unsigned int i;
 

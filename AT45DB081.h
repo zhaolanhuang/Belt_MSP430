@@ -5,7 +5,7 @@
 #include"SPI.h"
 
 
-#define DF_RESET     P2OUT &=~BIT4; P2OUT |= BIT4;      // AT45DB081∏¥Œª
+#define DF_RESET     P2OUT &=~BIT4; P2OUT |= BIT4;      // AT45DB081Â§ç‰Ωç
 #define BUFFER_1_READ 0xD4     // buffer 1 read (change to 0xD4 for SPI mode 0,3)
 #define BUFFER_2_READ 0xD6     // buffer 2 read (change to 0xD6 for SPI
 #define BUFFER_1_WRITE 0x84     // buffer 1 write

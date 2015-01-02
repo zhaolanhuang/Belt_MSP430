@@ -11,7 +11,7 @@ extern const unsigned char strREADY[];
 extern const unsigned char strSTAMP[];
 extern void UART_OnTx(void);
 extern void UART_OnRx(void);
-extern void UART_SendString(const  unsigned char *Ptr); //给上位机发送字符串
+extern void UART_SendString(const  unsigned char *Ptr); //缁欎笂浣嶆満鍙戦�佸瓧绗︿覆
 
 
 #endif /* UART_EVENT_H_ */

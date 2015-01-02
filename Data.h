@@ -13,16 +13,16 @@
 #include "UART/UART_Event.h"
 /*
 Using Word R/W Mode
-¶ÑÕ»Ê½²Ù×÷
-µÚÒ»Ò³Ç°Á½¸ö×Ö×÷Îªµ±Ç°Êı¾İÖ¸ÕëÎ»ÖÃ
+å †æ ˆå¼æ“ä½œ
+ç¬¬ä¸€é¡µå‰ä¸¤ä¸ªå­—ä½œä¸ºå½“å‰æ•°æ®æŒ‡é’ˆä½ç½®
 */
 #define PAGEBASE 0
 #define OFFSETBASE 1
-extern unsigned int pageIndex;//µ±Ç°Ò³Ë÷Òı,range [0,4095]
-extern unsigned int pageOffsetIndex;//Ò³ÄÚÆ«ÒÆ,range [0,127]
+extern unsigned int pageIndex;//å½“å‰é¡µç´¢å¼•,range [0,4095]
+extern unsigned int pageOffsetIndex;//é¡µå†…åç§»,range [0,127]
 void Push(unsigned int *data);
 unsigned char Pop(unsigned int *data);
-extern void SaveData();//±£´æARRAYLEN×éºôÎüÊı¾İ
+extern void SaveData();//ä¿å­˜ARRAYLENç»„å‘¼å¸æ•°æ®
 extern void SendData(unsigned char _index);
 extern void SavePointer();
 extern void ReadPointer();

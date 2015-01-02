@@ -1,6 +1,6 @@
 /*
  * UART_Event.c
- * ¹¦ÄÜ£ºÈ«Ãæ´¦ÀíÓëÉÏÎ»»úÍ¨ÐÅµÄÏà¹ØÊÂÒË
+ * åŠŸèƒ½ï¼šå…¨é¢å¤„ç†ä¸Žä¸Šä½æœºé€šä¿¡çš„ç›¸å…³äº‹å®œ
  *  Created on: 2013-3-18
  *      Author: Administrator
  */
@@ -8,59 +8,59 @@
 #include "UART_Global.h"
 #include "UART_FIFO.h"
 #include "UART_Event.h"
-//-----¶ÔÓÚÓ²¼þÓÐ¹ØµÄ´úÂëºê¶¨Òå´¦Àí-----
+//-----å¯¹äºŽç¡¬ä»¶æœ‰å…³çš„ä»£ç å®å®šä¹‰å¤„ç†-----
 
-//-----Ô¤´æÈëROMÖÐµÄÏÔÊ¾´úÂë-----
+//-----é¢„å­˜å…¥ROMä¸­çš„æ˜¾ç¤ºä»£ç -----
 const unsigned char strERR[] = "ERR+\0";
 const unsigned char strACKQ[] = "ACKQ+\0";
 const unsigned char strREADY[] = "READY+\0";
 const unsigned char strSTAMP[] = "STAMP+\0";
-void Command_match();  // ×Ö·ûÆ¥ÅäÃüÁîº¯Êý
+void Command_match();  // å­—ç¬¦åŒ¹é…å‘½ä»¤å‡½æ•°
 /******************************************************************************************************
- * Ãû       ³Æ£ºUART_OnTx()
- * ¹¦       ÄÜ£ºUARTµÄTxÊÂ¼þ´¦Àíº¯Êý
- * Èë¿Ú²ÎÊý£ºÎÞ
- * ³ö¿Ú²ÎÊý£ºÎÞ
- * Ëµ       Ã÷£ºTx_FIFOÀïÓÐÊý¾Ý¾Í½«Êý¾ÝÒÆµ½Tx Buffer¼Ä´æÆ÷ÖÐÈ¥
- * ·¶       Àý£ºÎÞ
+ * å       ç§°ï¼šUART_OnTx()
+ * åŠŸ       èƒ½ï¼šUARTçš„Txäº‹ä»¶å¤„ç†å‡½æ•°
+ * å…¥å£å‚æ•°ï¼šæ— 
+ * å‡ºå£å‚æ•°ï¼šæ— 
+ * è¯´       æ˜Žï¼šTx_FIFOé‡Œæœ‰æ•°æ®å°±å°†æ•°æ®ç§»åˆ°Tx Bufferå¯„å­˜å™¨ä¸­åŽ»
+ * èŒƒ       ä¾‹ï¼šæ— 
  ******************************************************************************************************/
 void UART_OnTx(void)
 {
 	unsigned char Temp;
 	if(Tx_FIFO_DataNum>0)
 	{
-		Tx_FIFO_ReadChar(&Temp);	//µ÷ÓÃFIFO¿âº¯Êý
+		Tx_FIFO_ReadChar(&Temp);	//è°ƒç”¨FIFOåº“å‡½æ•°
 		UCA0TXBUF= Temp;
 	}
 }
 /******************************************************************************************************
- * Ãû       ³Æ£ºUART_OnRx()
- * ¹¦       ÄÜ£ºUARTµÄRxÊÂ¼þ´¦Àíº¯Êý
- * Èë¿Ú²ÎÊý£ºÎÞ
- * ³ö¿Ú²ÎÊý£ºÎÞ
- * Ëµ       Ã÷£º¶Ô½ÓÊÕµ½µÄÊý¾Ý£¬Çø±ð¶Ô´ý½øÐÐ´¦Àí
- * ·¶       Àý£ºÎÞ
+ * å       ç§°ï¼šUART_OnRx()
+ * åŠŸ       èƒ½ï¼šUARTçš„Rxäº‹ä»¶å¤„ç†å‡½æ•°
+ * å…¥å£å‚æ•°ï¼šæ— 
+ * å‡ºå£å‚æ•°ï¼šæ— 
+ * è¯´       æ˜Žï¼šå¯¹æŽ¥æ”¶åˆ°çš„æ•°æ®ï¼ŒåŒºåˆ«å¯¹å¾…è¿›è¡Œå¤„ç†
+ * èŒƒ       ä¾‹ï¼šæ— 
  ******************************************************************************************************/
 void UART_OnRx(void)
 {
 	unsigned char Temp = 0;
-	Temp=UCA0RXBUF;			// Ô¤´æÏÂTx BufferÊý¾Ý
+	Temp=UCA0RXBUF;			// é¢„å­˜ä¸‹Tx Bufferæ•°æ®
 
-	if(Temp == '+')				// Èç¹ûÊÇ»Ø³µ£¬±íÃ÷¿ÉÒÔ×ö¸ö¡±ÁË¶Ï¡°ÁË
+	if(Temp == '+')				// å¦‚æžœæ˜¯å›žè½¦ï¼Œè¡¨æ˜Žå¯ä»¥åšä¸ªâ€äº†æ–­â€œäº†
 	{
-		if(Rx_FIFO_DataNum > 0)	//FIFOÀïÓÐÊý¾Ý£¬Ôò½øÐÐÊý¾ÝÅÐ¶Ï
+		if(Rx_FIFO_DataNum > 0)	//FIFOé‡Œæœ‰æ•°æ®ï¼Œåˆ™è¿›è¡Œæ•°æ®åˆ¤æ–­
 		{
 			IE2 &= ~(UCA0RXIE);
-			Command_match();		//ÅÐ¶ÏÃüÁîÊÇÊ²Ã´
-			Rx_FIFO_Clear();				//Çå¿ÕFIFO
+			Command_match();		//åˆ¤æ–­å‘½ä»¤æ˜¯ä»€ä¹ˆ
+			Rx_FIFO_Clear();				//æ¸…ç©ºFIFO
 			IE2 |= (UCA0RXIE);
 		}
-							//Èç¹ûÉ¶Êý¾Ý¶¼Ã»ÓÐ£¨¹âÇÃÁË¸ö»Ø³µ£©
-	//		UART_SendString(String1);  	//ÏÔÊ¾ÃüÁîÌáÊ¾·û
-	//		UART_SendString(String2);	//ÏÔÊ¾ÃüÁîÌáÊ¾·û
+							//å¦‚æžœå•¥æ•°æ®éƒ½æ²¡æœ‰ï¼ˆå…‰æ•²äº†ä¸ªå›žè½¦ï¼‰
+	//		UART_SendString(String1);  	//æ˜¾ç¤ºå‘½ä»¤æç¤ºç¬¦
+	//		UART_SendString(String2);	//æ˜¾ç¤ºå‘½ä»¤æç¤ºç¬¦
 
 	}
-	//-----¼È²»ÊÇ»Ø³µÒ²²»ÊÇÍË¸ñ£¬ÄÇ¾ÍÕý³£´æÃüÁîÊý¾Ý-----
+	//-----æ—¢ä¸æ˜¯å›žè½¦ä¹Ÿä¸æ˜¯é€€æ ¼ï¼Œé‚£å°±æ­£å¸¸å­˜å‘½ä»¤æ•°æ®-----
 	else
 	{
 		if(Rx_FIFO_DataNum >= RX_FIFO_SIZE)
@@ -69,24 +69,24 @@ void UART_OnRx(void)
 				Rx_FIFO_Clear();
 				return;
 			}
-		Rx_FIFO_WriteChar(Temp); 			//Õý³£Ð´FIFO
+		Rx_FIFO_WriteChar(Temp); 			//æ­£å¸¸å†™FIFO
 	}
 }
 /******************************************************************************************************
- * Ãû       ³Æ£ºUART_SendString()
- * ¹¦       ÄÜ£ºÓÃUART·¢ËÍÒ»¸ö×Ö·û´®
- * Èë¿Ú²ÎÊý£º*Ptr£º×Ö·û´®Ê×µØÖ·
- * ³ö¿Ú²ÎÊý£ºÎÞ
- * Ëµ       Ã÷£º×Ö·û´®Èç¹ûºÜ³¤£¬³¬¹ýTx_FIFO³¤¶È£¬Ôò»á·¢Éú×èÈûCPU
- * ·¶       Àý£ºÎÞ
+ * å       ç§°ï¼šUART_SendString()
+ * åŠŸ       èƒ½ï¼šç”¨UARTå‘é€ä¸€ä¸ªå­—ç¬¦ä¸²
+ * å…¥å£å‚æ•°ï¼š*Ptrï¼šå­—ç¬¦ä¸²é¦–åœ°å€
+ * å‡ºå£å‚æ•°ï¼šæ— 
+ * è¯´       æ˜Žï¼šå­—ç¬¦ä¸²å¦‚æžœå¾ˆé•¿ï¼Œè¶…è¿‡Tx_FIFOé•¿åº¦ï¼Œåˆ™ä¼šå‘ç”Ÿé˜»å¡žCPU
+ * èŒƒ       ä¾‹ï¼šæ— 
  ******************************************************************************************************/
-void UART_SendString(const unsigned char *Ptr) //¸øÉÏÎ»»ú·¢ËÍ×Ö·û´®
+void UART_SendString(const unsigned char *Ptr) //ç»™ä¸Šä½æœºå‘é€å­—ç¬¦ä¸²
 {
 
 	while(*Ptr)
 	{
 
-	    //__delay_cycles(100);//ÑÓÊ± µÈ´ýÀ¶ÑÀÄ£¿éÏìÓ¦
+	    //__delay_cycles(100);//å»¶æ—¶ ç­‰å¾…è“ç‰™æ¨¡å—å“åº”
 		if(Tx_FIFO_WriteChar(*Ptr) == 1)
 		{
 			Ptr++;
@@ -97,14 +97,14 @@ void UART_SendString(const unsigned char *Ptr) //¸øÉÏÎ»»ú·¢ËÍ×Ö·û´®
 	Tx_FIFO_Clear();
 }
 /******************************************************************************************************
- * Ãû       ³Æ£ºCommand_match()
- * ¹¦       ÄÜ£º¶Ô½ÓÊÕµ½µÄÃüÁîÊý¾Ý½øÐÐÆ¥Åä£¬¸ù¾ÝÆ¥Åä½á¹û¿ØÖÆLED²¢»ØÏÔ´¦Àí½á¹û
- * Èë¿Ú²ÎÊý£ºÎÞ
- * ³ö¿Ú²ÎÊý£ºÎÞ
- * Ëµ       Ã÷£º¹²4ÖÖÔ¤ÏÈÔ¼¶¨µÄÃüÁî×Ö£ºLED1_ON,LED1_OFF,LED2_ON,LED2_OFF
- * ·¶       Àý£ºÎÞ
+ * å       ç§°ï¼šCommand_match()
+ * åŠŸ       èƒ½ï¼šå¯¹æŽ¥æ”¶åˆ°çš„å‘½ä»¤æ•°æ®è¿›è¡ŒåŒ¹é…ï¼Œæ ¹æ®åŒ¹é…ç»“æžœæŽ§åˆ¶LEDå¹¶å›žæ˜¾å¤„ç†ç»“æžœ
+ * å…¥å£å‚æ•°ï¼šæ— 
+ * å‡ºå£å‚æ•°ï¼šæ— 
+ * è¯´       æ˜Žï¼šå…±4ç§é¢„å…ˆçº¦å®šçš„å‘½ä»¤å­—ï¼šLED1_ON,LED1_OFF,LED2_ON,LED2_OFF
+ * èŒƒ       ä¾‹ï¼šæ— 
  ******************************************************************************************************/
-void Command_match()  // ×Ö·ûÆ¥ÅäÃüÁî
+void Command_match()  // å­—ç¬¦åŒ¹é…å‘½ä»¤
 {
 	if(Rx_FIFO[0] == 'R' && Rx_FIFO[1] == 'S' && Rx_FIFO[2] == 'T')
 	{

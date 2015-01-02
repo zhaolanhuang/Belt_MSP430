@@ -1,6 +1,6 @@
 /*
  * UART_Global.h
- * ËµÃ÷£ºUARTµÄFIFO¿âº¯ÊıÍ·ÎÄ¼ş
+ * è¯´æ˜ï¼šUARTçš„FIFOåº“å‡½æ•°å¤´æ–‡ä»¶
  *  Created on: 2013-3-18
  *      Author: Administrator
  */
@@ -9,8 +9,8 @@
 #define UART_GLOBAL_H_
 #include "../Bluetooth.h"
 #include "../Global.h"
-#define RX_FIFO_SIZE 16		//½ÓÊÕ»º³åÇø´óĞ¡ºê¶¨Òå
-#define TX_FIFO_SIZE 64		//·¢ËÍ»º³åÇø´óĞ¡ºê¶¨Òå
+#define RX_FIFO_SIZE 16		//æ¥æ”¶ç¼“å†²åŒºå¤§å°å®å®šä¹‰
+#define TX_FIFO_SIZE 64		//å‘é€ç¼“å†²åŒºå¤§å°å®å®šä¹‰
 
 extern  unsigned char Rx_FIFO[RX_FIFO_SIZE];
 extern  unsigned char Rx_FIFO_DataNum;

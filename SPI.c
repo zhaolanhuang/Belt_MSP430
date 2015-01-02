@@ -1,10 +1,10 @@
 /*
  * SPI.c
- * ����CKPH��CKPL����λ�Ĳ�ͬ��SPI��ʱ����4��Լ��
- * ���ļ�����CKPH=0��CKPL=0��ģʽ��
- * ��1��CLK������Tx���½���Rx
- * ��2��ʱ�ӿ���״̬Ϊ�͵�ƽ
- * ��3��CS�͵�ƽʹ�ܺ�ĵ�һ��CLK���ؿ�ʼ�շ����ݡ�
+ * 根据CKPH和CKPL控制位的不同，SPI的时序有4种约定
+ * 本文件采用CKPH=0和CKPL=0的模式：
+ * （1）CLK上升沿Tx，下降沿Rx
+ * （2）时钟空闲状态为低电平
+ * （3）CS低电平使能后的第一个CLK边沿开始收发数据。
  *  Created on: 2013-4-3
  *      Author: Administrator
  */
@@ -14,25 +14,25 @@
 
 #ifdef	SOFT_SPI				//Begin of SOFT_SPI
 static unsigned char SPI_Delay=50;			//=5us
-#define DelayMCLK_FREQ			1000000		//���ھ�ȷ��ʱ����
-//-----�Դӻ�ʹ��CS��STE�����ź궨��-----
+#define DelayMCLK_FREQ			1000000		//用于精确延时函数
+//-----对从机使能CS（STE）引脚宏定义-----
 #define SPI_CS_HIGH			P2OUT |=BIT4
 #define SPI_CS_LOW			P2OUT &=~BIT4
-//-----��ͨ��ʱ��CLK���ź궨��-----
+//-----对通信时钟CLK引脚宏定义-----
 #define SPI_CLK_HIGH		P1OUT |=BIT4
 #define SPI_CLK_LOW		P1OUT &=~BIT4
-//-----�Դ�������SIMO���ź궨��-----
+//-----对从收主发SIMO引脚宏定义-----
 #define SPI_SIMO_HIGH	P1OUT |=BIT2
 #define SPI_SIMO_LOW		P1OUT &=~BIT2
-//-----�Դӷ�����SOMI���ź궨��-----
+//-----对从发主收SOMI引脚宏定义-----
 #define SPI_SOMI_IN			P1IN &BIT1
 /******************************************************************************************************
- * ��       �ƣ�SPI_init(void)
- * ��       �ܣ�����Ӳ��SPI�ĳ�ʼ������
- * ��ڲ�������
- * ���ڲ�������
- * ˵       ����ʵ�ʹ����ǳ�ʼ��SPI���IO�ķ���
- * ��       ������
+ * 名       称：SPI_init(void)
+ * 功       能：兼容硬件SPI的初始化命名
+ * 入口参数：无
+ * 出口参数：无
+ * 说       明：实际功能是初始化SPI相关IO的方向
+ * 范       例：无
  ******************************************************************************************************/
 void SPI_init(void)
 {
@@ -41,50 +41,50 @@ void SPI_init(void)
 	P1DIR &=~BIT1;
 }
 /******************************************************************************************************
- * ��       �ƣ�SPI_CS_High(void)
- * ��       �ܣ������ϲ㺯���ĵ���
- * ��ڲ�������
- * ���ڲ�������
- * ˵       ������
- * ��       ������
+ * 名       称：SPI_CS_High(void)
+ * 功       能：兼容上层函数的调用
+ * 入口参数：无
+ * 出口参数：无
+ * 说       明：无
+ * 范       例：无
  ******************************************************************************************************/
 void SPI_CS_High(void)
 {
 	SPI_CS_HIGH;
 }
 /******************************************************************************************************
- * ��       �ƣ�SPI_CS_Low(void)
- * ��       �ܣ������ϲ㺯���ĵ���
- * ��ڲ�������
- * ���ڲ�������
- * ˵       ������
- * ��       ������
+ * 名       称：SPI_CS_Low(void)
+ * 功       能：兼容上层函数的调用
+ * 入口参数：无
+ * 出口参数：无
+ * 说       明：无
+ * 范       例：无
  ******************************************************************************************************/
 void SPI_CS_Low(void)
 {
 	SPI_CS_LOW;
 }
 /******************************************************************************************************
- * ��       �ƣ�delay_us()
- * ��       �ܣ�us����ʱ
- * ��ڲ�������
- * ���ڲ�������
- * ˵       ����ͨ��ȫ�ֱ���SPI_Delay�������
- * ��       ������
+ * 名       称：delay_us()
+ * 功       能：us级延时
+ * 入口参数：无
+ * 出口参数：无
+ * 说       明：通过全局变量SPI_Delay传入参数
+ * 范       例：无
  ******************************************************************************************************/
 static void delay_us(void)
 {
 	unsigned int i=0;
 	for(i=0;i<SPI_Delay;i++)
-		__delay_cycles(DelayMCLK_FREQ/1000000);		//us��ʱ
+		__delay_cycles(DelayMCLK_FREQ/1000000);		//us延时
 }
 /******************************************************************************************************
- * ��       �ƣ�Tx_Char()
- * ��       �ܣ�������ӻ�����1���ֽ�����
- * ��ڲ�������
- * ���ڲ�������
- * ˵       ������
- * ��       ������
+ * 名       称：Tx_Char()
+ * 功       能：主机向从机发送1个字节数据
+ * 入口参数：无
+ * 出口参数：无
+ * 说       明：无
+ * 范       例：无
  ******************************************************************************************************/
 void Tx_Char(unsigned char data)
 {
@@ -99,12 +99,12 @@ void Tx_Char(unsigned char data)
 	}
 }
 /******************************************************************************************************
- * ��       �ƣ�Rx_Char()
- * ��       �ܣ��������մӻ�1���ֽ�����
- * ��ڲ�������
- * ���ڲ�������
- * ˵       ������
- * ��       ������
+ * 名       称：Rx_Char()
+ * 功       能：主机接收从机1个字节数据
+ * 入口参数：无
+ * 出口参数：无
+ * 说       明：无
+ * 范       例：无
  ******************************************************************************************************/
 unsigned char Rx_Char()
 {
@@ -114,26 +114,26 @@ unsigned char Rx_Char()
 	{
 		SPI_CLK_HIGH;		delay_us();
 		SPI_CLK_LOW ;		delay_us();
-		Temp=Temp<<1;		//��λ����������ǰ��
-		if(SPI_SOMI_IN )			//���ո�λ
-			Temp |=BIT0;			//��1
-//		else Temp &=~BIT0;	//��ʡ�ԣ�Ĭ�Ͼ���0
+		Temp=Temp<<1;		//移位，这句需放在前面
+		if(SPI_SOMI_IN )			//先收高位
+			Temp |=BIT0;			//置1
+//		else Temp &=~BIT0;	//可省略，默认就是0
 	}
 	return Temp;
 }
 /******************************************************************************************************
- * ��       �ƣ�SPI_TxFrame()
- * ��       �ܣ�������ӻ�����1��֡����
- * ��ڲ�������
- * ���ڲ�������
- * ˵       ������
- * ��       ������
+ * 名       称：SPI_TxFrame()
+ * 功       能：主机向从机发送1个帧数据
+ * 入口参数：无
+ * 出口参数：无
+ * 说       明：无
+ * 范       例：无
  ******************************************************************************************************/
 unsigned char SPI_TxFrame(unsigned char  *pBuffer, unsigned int   size)
 {
 	_disable_interrupts();
 	unsigned char i=0;
-	for(i=0;i<size;i++)						//Ȼ�����η��͸��ֽ�����
+	for(i=0;i<size;i++)						//然后依次发送各字节数据
 	{
 		Tx_Char(*pBuffer);
 		pBuffer++;
@@ -143,18 +143,18 @@ unsigned char SPI_TxFrame(unsigned char  *pBuffer, unsigned int   size)
 }
 
 /******************************************************************************************************
- * ��       �ƣ�SPI_RxFrame()
- * ��       �ܣ��������մӻ�1֡����
- * ��ڲ�������
- * ���ڲ�������
- * ˵       ������
- * ��       ������
+ * 名       称：SPI_RxFrame()
+ * 功       能：主机接收从机1帧数据
+ * 入口参数：无
+ * 出口参数：无
+ * 说       明：无
+ * 范       例：无
  ******************************************************************************************************/
 unsigned char SPI_RxFrame(unsigned char  *pBuffer, unsigned int size)
 {
 	unsigned char i=0;
 	_disable_interrupts();
-	for(i=0;i<size;i++)						//Ȼ�����ν��ո����ֽ�����
+	for(i=0;i<size;i++)						//然后依次接收各个字节数据
 	{
 		 *pBuffer=Rx_Char();
 		 pBuffer++;
@@ -163,24 +163,24 @@ unsigned char SPI_RxFrame(unsigned char  *pBuffer, unsigned int size)
 	return 1;
 }
 /****************************************************************************
-* ��       �ƣ�SPI_HighSpeed()
-* ��       �ܣ�����SPIΪ����
-* ��ڲ�������
-* ���ڲ�������
-* ˵       ������ЩSPI�豸�ɹ����ڸ���SPI״̬
-* ʹ�÷�������
+* 名       称：SPI_HighSpeed()
+* 功       能：设置SPI为高速
+* 入口参数：无
+* 出口参数：无
+* 说       明：有些SPI设备可工作在高速SPI状态
+* 使用范例：无
 ****************************************************************************/
 void SPI_HighSpeed()
 {
 	SPI_Delay=1;
 }
 /****************************************************************************
-* ��       �ƣ�SPI_LowSpeed()
-* ��       �ܣ�����SPIΪ����
-* ��ڲ�������
-* ���ڲ�������
-* ˵       ������ЩSPI�豸��Ҫ�����ڵ���SPI״̬
-* ʹ�÷�������
+* 名       称：SPI_LowSpeed()
+* 功       能：设置SPI为低速
+* 入口参数：无
+* 出口参数：无
+* 说       明：有些SPI设备需要工作在低速SPI状态
+* 使用范例：无
 ****************************************************************************/
 void SPI_LowSpeed()
 {
@@ -189,263 +189,263 @@ void SPI_LowSpeed()
 #endif		//End of SOFT_SPI
 
 #ifdef HARD_SPI			//Begin of HRAD_SPI
-//unsigned char flagTx = 2;//CPU������־λ,1 block,0 no block;
+//unsigned char flagTx = 2;//CPU阻塞标志位,1 block,0 no block;
 //unsigned char flagRx = 2;
-//-----Ӳ��SPI�ܽź궨��-----
+//-----硬件SPI管脚宏定义-----
 #define SPI_SIMO        	BIT7		//1.7
 #define SPI_SOMI        	BIT6		//1.6
 #define SPI_CLK         	BIT5		//1.5
 #define SPI_CS           	BIT5		//P2.5
-//-----Ӳ��SPI���ƶ˿ں궨��-----
+//-----硬件SPI控制端口宏定义-----
 #define SPI_SEL2         	P1SEL2
 #define SPI_SEL         	P1SEL
 #define SPI_DIR         	P1DIR
 #define SPI_OUT         	P1OUT
 #define SPI_REN         	P1REN
-//-----ʹ�ܶ�CS�˿ں궨��-----
+//-----使能端CS端口宏定义-----
 #define SPI_CS_SEL2       P2SEL2
 #define SPI_CS_SEL       	 P2SEL
 #define SPI_CS_OUT       P2OUT
 #define SPI_CS_DIR       	 P2DIR
 
-//-----���巢��/���ջ���-----
+//-----定义发送/接收缓存-----
 unsigned char  *SPI_Tx_Buffer;
 unsigned char  *SPI_Rx_Buffer;
-//-----���������/���յ��ֽ���-----
+//-----定义待发送/接收的字节数-----
 unsigned char  SPI_Tx_Size=0;
 unsigned char  SPI_Rx_Size=0;
-//-----���巢��/����ģʽ��־-----
-unsigned char SPI_Rx_Or_Tx =0;			// 0:������	1��������   2���շ�
+//-----定义发送/接收模式标志-----
+unsigned char SPI_Rx_Or_Tx =0;			// 0:仅接收	1：仅发送   2：收发
 /****************************************************************************
-* ��    �ƣ�SPI_init()
-* ��    �ܣ���Ӳ��SPI���г�ʼ������
-* ��ڲ�������
-* ���ڲ�������
-* ˵    ��������ʹ�ú���Ķ�д�������ڳ���ʼ�����ȵ��øó�ʼ������
-* ʹ�÷�����SPI_init();
+* 名    称：SPI_init()
+* 功    能：对硬件SPI进行初始化设置
+* 入口参数：无
+* 出口参数：无
+* 说    明：如需使用后面的读写函数，在程序开始必须先调用该初始化函数
+* 使用范例：SPI_init();
 ****************************************************************************/
 void SPI_init(void)
 {
 
-    //-----�ܽų�ʼ��Ϊ SPI ����-----
+    //-----管脚初始化为 SPI 功能-----
     SPI_SEL |= SPI_CLK + SPI_SOMI + SPI_SIMO;
     SPI_SEL2 |= SPI_CLK + SPI_SOMI + SPI_SIMO;
     SPI_DIR |= SPI_CLK + SPI_SIMO;
-    //-----SD ��SPIģʽ�£���Ҫ��SOMI����������-----
+    //-----SD 卡SPI模式下，需要将SOMI加上拉电阻-----
     SPI_REN |= SPI_SOMI;
     SPI_OUT |= SPI_SOMI;
-    //-----ʹ��CS�ܽ�Ϊ�������-----
+    //-----使能CS管脚为输出功能-----
     SPI_CS_SEL   &= ~SPI_CS;
     SPI_CS_SEL2 &= ~SPI_CS;
     SPI_CS_OUT |= SPI_CS;
     SPI_CS_DIR  |= SPI_CS;
-    //-----��λUCA0-----
+    //-----复位UCA0-----
     UCB0CTL1 |= UCSWRST;
-    //-----3-pin, 8-bit SPI ����ģʽ- ������----
+    //-----3-pin, 8-bit SPI 主机模式- 上升沿----
     UCB0CTL0 = UCCKPL + UCMSB + UCMST + UCMODE_0 + UCSYNC;
-    //-----ʱ��ѡ��SMCLK��MSB first-----
+    //-----时钟选择SMCLK，MSB first-----
     UCB0CTL1 = UCSWRST + UCSSEL_2;
     //-----f_UCxCLK = 12MHz/50 = 240kHz-----
     UCB0BR0 = 50;
     UCB0BR1 = 0;
     //UCA0MCTL = 0;
-    //-----����UCA0-----
+    //-----开启UCA0-----
     UCB0CTL1 &= ~UCSWRST;
-    //-----����жϱ�־λ-----
+    //-----清除中断标志位-----
     IFG2 &= ~(UCB0RXIFG+UCB0TXIFG );
     __bis_SR_register(GIE);
 
 }
 /****************************************************************************
-* ��       �ƣ�SPI_CS_High()
-* ��       �ܣ�3��Ӳ��SPIģʽ������ʹ��CS�ܽ�Ϊ�ߵ�ƽ
-* ��ڲ�������
-* ���ڲ�������
-* ˵       �����˴���CS�ܽſ��Ը���Ӳ������Ҫ������ָ���ܽ���CS���ɡ�
-* ʹ�÷�����SPI_CS_High();
+* 名       称：SPI_CS_High()
+* 功       能：3线硬件SPI模式，控制使能CS管脚为高电平
+* 入口参数：无
+* 出口参数：无
+* 说       明：此处的CS管脚可以根据硬件的需要，任意指定管脚作CS均可。
+* 使用范例：SPI_CS_High();
 ****************************************************************************/
 void SPI_CS_High(void)
 {
     SPI_CS_OUT |= SPI_CS;
 }
 /****************************************************************************
-* ��    �ƣ�SPI_CS_Low()
-* ��    �ܣ�3��Ӳ��SPIģʽ������ʹ��CS�ܽ�Ϊ�͵�ƽ
-* ��ڲ�������
-* ���ڲ�������
-* ˵    ���� �˴���CS�ܽſ��Ը���Ӳ������Ҫ������ָ���ܽ���CS���ɡ�
-* ʹ�÷�����SPI_CS_SLow();
+* 名    称：SPI_CS_Low()
+* 功    能：3线硬件SPI模式，控制使能CS管脚为低电平
+* 入口参数：无
+* 出口参数：无
+* 说    明： 此处的CS管脚可以根据硬件的需要，任意指定管脚作CS均可。
+* 使用范例：SPI_CS_SLow();
 ****************************************************************************/
 void SPI_CS_Low(void)
 {
     SPI_CS_OUT &= ~SPI_CS;
 }
 /****************************************************************************
-* ��    �ƣ�SPI_Interrupt_Sel()
-* ��    �ܣ��������ͻ�����ж�
-* ��ڲ�����onOff = 0 :�رշ����жϣ��򿪽����жϣ�
-* 					onOff = 1 :�رս����жϣ��򿪷����жϣ�
-* ���ڲ�������
-* ˵    ���� ʹ�ô˺���������ѡ��ǰ�ն�ģʽ�����ں����������ж�
-* ʹ�÷�����SPI_Interrupt_Sel(0);		// �رշ����жϣ��򿪽����жϣ�
-* 					SPI_Interrupt_Sel(1);		// �رս����жϣ��򿪷����жϣ�
+* 名    称：SPI_Interrupt_Sel()
+* 功    能：开启发送或接收中断
+* 入口参数：onOff = 0 :关闭发送中断，打开接收中断；
+* 					onOff = 1 :关闭接收中断，打开发送中断；
+* 出口参数：无
+* 说    明： 使用此函数来控制选择当前终端模式，便于合理的运用中断
+* 使用范例：SPI_Interrupt_Sel(0);		// 关闭发送中断，打开接收中断；
+* 					SPI_Interrupt_Sel(1);		// 关闭接收中断，打开发送中断；
 ****************************************************************************/
 void SPI_Interrupt_Sel(unsigned char onOff)
 {
-	if(onOff == 0)						// ֻ�������ж�
+	if(onOff == 0)						// 只开接收中断
 	{
 		  IE2 &=~UCB0TXIE ;
 		  IE2 |= UCB0RXIE ;
 	}
-	else	if(onOff==1)				// ֻ���������ж�
+	else	if(onOff==1)				// 只开启发送中断
 	{
 		  IE2 &=~UCB0RXIE ;
 		  IE2 |= UCB0TXIE ;
 	}
-	else										//�շ�ȫ��
+	else										//收发全开
 	{
 		 IE2 |= UCB0RXIE ;
 		 IE2 |= UCB0TXIE ;
 	}
 }
 /****************************************************************************
-* ��    �ƣ�SPI_RxFrame()
-* ��    �ܣ�3��Ӳ��SPIģʽ�£�����ָ����Ŀ���ֽ�
-* ��ڲ�����pBuffer��ָ���Ž������ݵ�����
-* 					size��Ҫ���յ��ֽ���
-* ���ڲ�����0����ǰӲ��SPI��æ��
-* 					1����ǰ�����ѷ�����ϣ�
-* ˵    ����ʹ�øú������Խ���ָ��������һ֡����
-* ʹ�÷�����SPI_RxFrame(CMD,6);// ����6���ֽڣ������η���CMD��
+* 名    称：SPI_RxFrame()
+* 功    能：3线硬件SPI模式下，接收指定数目的字节
+* 入口参数：pBuffer：指向存放接收数据的数组
+* 					size：要接收的字节数
+* 出口参数：0：当前硬件SPI在忙，
+* 					1：当前数据已发送完毕，
+* 说    明：使用该函数可以接收指定个数的一帧数据
+* 使用范例：SPI_RxFrame(CMD,6);// 接收6个字节，并依次放入CMD中
 ****************************************************************************/
 unsigned char SPI_RxFrame(unsigned char  *pBuffer, unsigned int size)
 {
 	if(size==0)									return (1);
-	if(UCB0STAT & UCBUSY)			return	(0);			// �ж�Ӳ��SPI��æ������0
-	 _disable_interrupts();											// �ر����ж�
-    SPI_Rx_Or_Tx = 0;													// ��������ģʽ
-    SPI_Rx_Buffer = pBuffer;										// �����ͻ���ָ������͵������ַ
-    SPI_Rx_Size = size-1;												// �����͵����ݸ���
-    SPI_Interrupt_Sel(SPI_Rx_Or_Tx);							// SPI�жϿ���ѡ��
-                                   				// �����ж�
-    UCB0TXBUF = 0xFF;													// �ڽ���ģʽ�£�ҲҪ�ȷ���һ�ο��ֽڣ��Ա��ṩͨ��ʱ�ӡ�
+	if(UCB0STAT & UCBUSY)			return	(0);			// 判断硬件SPI正忙，返回0
+	 _disable_interrupts();											// 关闭总中断
+    SPI_Rx_Or_Tx = 0;													// 开启接收模式
+    SPI_Rx_Buffer = pBuffer;										// 将发送缓存指向待发送的数组地址
+    SPI_Rx_Size = size-1;												// 待发送的数据个数
+    SPI_Interrupt_Sel(SPI_Rx_Or_Tx);							// SPI中断开启选择
+                                   				// 开总中断
+    UCB0TXBUF = 0xFF;													// 在接收模式下，也要先发送一次空字节，以便提供通信时钟。
   	IFG2 |= UCB0RXIFG;
   	_enable_interrupts();
-    //flagRx = 1;								// ����͹���ģʽ0
+    //flagRx = 1;								// 进入低功耗模式0
 	//while(flagRx);
 	_bis_SR_register(LPM0_bits);
   	return (1);
 }
 /****************************************************************************
-* ��    �ƣ�SPI_TxFrame()
-* ��    �ܣ�3��Ӳ��SPIģʽ�£�����ָ����Ŀ���ֽڻ���
-* ��ڲ�����pBuffer��ָ������͵������ַ
-* 					size�������͵��ֽ���
-* ���ڲ�����0����ǰӲ��SPI��æ��
-* 					1����ǰ�����ѷ�����ϣ�
-* ˵    ����ʹ�øú������Է���ָ��������һ֡����
-* ʹ�÷�����SPI_TxFrame(CMD,6);	// ��CMD��ȡ��������6���ֽ�
+* 名    称：SPI_TxFrame()
+* 功    能：3线硬件SPI模式下，发送指定数目的字节缓存
+* 入口参数：pBuffer：指向待发送的数组地址
+* 					size：待发送的字节数
+* 出口参数：0：当前硬件SPI在忙，
+* 					1：当前数据已发送完毕，
+* 说    明：使用该函数可以发送指定个数的一帧数据
+* 使用范例：SPI_TxFrame(CMD,6);	// 从CMD中取出并发送6个字节
 ****************************************************************************/
 unsigned char SPI_TxFrame(unsigned char  *pBuffer, unsigned int  size)
 {
 	if(size==0)									return (1);
-	if(UCB0STAT & UCBUSY)			return	(0);			// �ж�Ӳ��SPI��æ������0
-    _disable_interrupts();											// �ر����ж�
-    SPI_Rx_Or_Tx = 1;													// ��������ģʽ
-    SPI_Tx_Buffer = pBuffer;										// �����ͻ���ָ������͵������ַ
-    SPI_Tx_Size = size-1;												// �����͵����ݸ���
-    SPI_Interrupt_Sel(SPI_Rx_Or_Tx);							// SPI�жϿ���ѡ��
-    _enable_interrupts();	                               				// �����ж�
-    UCB0TXBUF = *SPI_Tx_Buffer;								// �ȷ��͵�һ���ֽ��˹�������һ��"����"�ж�
-	_bis_SR_register(LPM0_bits);									// ����͹���ģʽ0
+	if(UCB0STAT & UCBUSY)			return	(0);			// 判断硬件SPI正忙，返回0
+    _disable_interrupts();											// 关闭总中断
+    SPI_Rx_Or_Tx = 1;													// 开启发送模式
+    SPI_Tx_Buffer = pBuffer;										// 将发送缓存指向待发送的数组地址
+    SPI_Tx_Size = size-1;												// 待发送的数据个数
+    SPI_Interrupt_Sel(SPI_Rx_Or_Tx);							// SPI中断开启选择
+    _enable_interrupts();	                               				// 开总中断
+    UCB0TXBUF = *SPI_Tx_Buffer;								// 先发送第一个字节人工触发第一次"发送"中断
+	_bis_SR_register(LPM0_bits);									// 进入低功耗模式0
 	//flagTx = 1;
 	//while(flagTx);
     return (1);
 }
-//-----��ǰ�����¼���������-----
+//-----提前申明事件处理函数-----
 static void SPI_TxISR();
 static void SPI_RxISR();
 
 /******************************************************************************************************
- * ��       �ƣ�USCI0TX_ISR_HOOK()
- * ��       �ܣ���ӦTx�жϷ���
- * ��ڲ�������
- * ���ڲ�������
- * ˵       ��������������ѭ��CPU�Ĵ���
- * ��       ������
+ * 名       称：USCI0TX_ISR_HOOK()
+ * 功       能：响应Tx中断服务
+ * 入口参数：无
+ * 出口参数：无
+ * 说       明：包含唤醒主循环CPU的代码
+ * 范       例：无
  ******************************************************************************************************/
 
 void SPI_TxISR_Hook()
 {
-	//-----�����ж��¼����溯��-----
+	//-----发送中断事件引擎函数-----
 	SPI_TxISR();
-	//-----�жϴ˴β����Ƿ���ɣ�������˳��͹���-----
+	//-----判断此次操作是否完成，完成则退出低功耗-----
 
 }
 /******************************************************************************************************
- * ��       �ƣ�USCI0RX_ISR_HOOK()
- * ��       �ܣ���ӦRx�жϷ���
- * ��ڲ�������
- * ���ڲ�������
- * ˵       ��������������ѭ��CPU�Ĵ���
- * ��       ������
+ * 名       称：USCI0RX_ISR_HOOK()
+ * 功       能：响应Rx中断服务
+ * 入口参数：无
+ * 出口参数：无
+ * 说       明：包含唤醒主循环CPU的代码
+ * 范       例：无
  ******************************************************************************************************/
 
 void SPI_RxISR_Hook()
 {
-	//-----�����ж��¼����溯��-----
+	//-----接收中断事件引擎函数-----
 	 SPI_RxISR();
-	//-----�жϴ˴β����Ƿ���ɣ�������˳��͹���-----
+	//-----判断此次操作是否完成，完成则退出低功耗-----
 
 }
 /******************************************************************************************************
- * ��       �ƣ�SPI_RxISR()
- * ��       �ܣ�SPI��Rx�¼���������
- * ��ڲ�������
- * ���ڲ�������
- * ˵       �����Խ��յ������ݣ�����Դ����д���
- * ��       ������
+ * 名       称：SPI_RxISR()
+ * 功       能：SPI的Rx事件处理函数
+ * 入口参数：无
+ * 出口参数：无
+ * 说       明：对接收到的数据，区别对待进行处理
+ * 范       例：无
  ******************************************************************************************************/
 static void SPI_RxISR()
 {
 
-	*SPI_Rx_Buffer = UCB0RXBUF;								//  ��ȡ���ջ��棬ͬʱ�����������UCA0RXIFG���жϱ�־λ
+	*SPI_Rx_Buffer = UCB0RXBUF;								//  读取接收缓存，同时，用于清除“UCA0RXIFG”中断标志位
 	if(SPI_Rx_Size!=0)
 	{
-		SPI_Rx_Size-- ;														// �����͵����ݼ�1
-		SPI_Rx_Buffer++;												// ����ָ������һ�ֽ�ƫ��
-		UCB0TXBUF = 0xFF;												// ����Ϊ���ṩCLK��UCA0TXIFG��־λͬʱ�������
+		SPI_Rx_Size-- ;														// 待发送的数据减1
+		SPI_Rx_Buffer++;												// 接收指针向下一字节偏移
+		UCB0TXBUF = 0xFF;												// 纯粹为了提供CLK。UCA0TXIFG标志位同时被清除。
 	}
-    IFG2 &= ~UCB0TXIFG; //��                              			// ��������жϱ�־λ
+    IFG2 &= ~UCB0TXIFG; //！                              			// 清除发送中断标志位
 
 }
 /******************************************************************************************************
- * ��       �ƣ�SPI_TxISR()
- * ��       �ܣ�SPI��Tx�¼���������
- * ��ڲ�������
- * ���ڲ�������
- * ˵       �����Խ��յ������ݣ�����Դ����д���
- * ��       ������
+ * 名       称：SPI_TxISR()
+ * 功       能：SPI的Tx事件处理函数
+ * 入口参数：无
+ * 出口参数：无
+ * 说       明：对接收到的数据，区别对待进行处理
+ * 范       例：无
  ******************************************************************************************************/
 static void SPI_TxISR()
 {
-    UCB0RXBUF;                                            				// Tx��Rx�жϱ�־λ������λ���˴���UCA0RXBUF�ղ��������������UCA0RXIFG���жϱ�־λ
+    UCB0RXBUF;                                            				// Tx和Rx中断标志位都会置位。此处对UCA0RXBUF空操作，用于清除“UCA0RXIFG”中断标志位
 	if(SPI_Tx_Size!=0)
 	{
-		SPI_Tx_Size-- ;														// �����͵����ݼ�1
-		SPI_Tx_Buffer++;											// ����ָ������һ�ֽ�ƫ��
-		UCB0TXBUF = *SPI_Tx_Buffer;							// ���뷢�ͻ��棬ͬʱ�����������UCA0TXIFG���жϱ�־λ
+		SPI_Tx_Size-- ;														// 待发送的数据减1
+		SPI_Tx_Buffer++;											// 发送指针向下一字节偏移
+		UCB0TXBUF = *SPI_Tx_Buffer;							// 放入发送缓存，同时，用于清除“UCA0TXIFG”中断标志位
 	}
 	else
-		IFG2 &= ~UCB0TXIFG;                                   		// ���һ�Σ����ڲ���UCA0TXBUF���в�������Ҫ��Ϊ��������жϱ�־λ
+		IFG2 &= ~UCB0TXIFG;                                   		// 最后一次，由于不对UCA0TXBUF进行操作，需要人为清除发送中断标志位
 }
 /****************************************************************************
-* ��       �ƣ�SPI_HighSpeed()
-* ��       �ܣ�����SPIΪ����
-* ��ڲ�������
-* ���ڲ�������
-* ˵       ������ЩSPI�豸�ɹ����ڸ���SPI״̬
-* ʹ�÷�������
+* 名       称：SPI_HighSpeed()
+* 功       能：设置SPI为高速
+* 入口参数：无
+* 出口参数：无
+* 说       明：有些SPI设备可工作在高速SPI状态
+* 使用范例：无
 ****************************************************************************/
 void SPI_HighSpeed()
 {
@@ -456,12 +456,12 @@ void SPI_HighSpeed()
 	UCB0CTL1 &= ~UCSWRST;
 }
 /****************************************************************************
-* ��       �ƣ�SPI_LowSpeed()
-* ��       �ܣ�����SPIΪ����
-* ��ڲ�������
-* ���ڲ�������
-* ˵       ������ЩSPI�豸��Ҫ�����ڵ���SPI״̬
-* ʹ�÷�������
+* 名       称：SPI_LowSpeed()
+* 功       能：设置SPI为低速
+* 入口参数：无
+* 出口参数：无
+* 说       明：有些SPI设备需要工作在低速SPI状态
+* 使用范例：无
 ****************************************************************************/
 void SPI_LowSpeed()
 {

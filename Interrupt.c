@@ -19,7 +19,7 @@ __interrupt void TA0_ISR(void)
 	TACCTL0 &= ~CCIFG;
 	//Real_Time();
 
-	P1_IODect();//IOÉ¨Ãè
+	P1_IODect();//IOæ‰«æ
 	_DINT();
 	TACCTL0 |= CCIE;
 	TA1CCTL0 |= CCIE;
@@ -52,17 +52,17 @@ __interrupt void TA1_ISR(void)
 }
 void P1_IODect()
 {
-	static unsigned char P13_Now=0;	//±äÁ¿Öµ³öº¯ÊıÊ±Ğè±£Áô
+	static unsigned char P13_Now=0;	//å˜é‡å€¼å‡ºå‡½æ•°æ—¶éœ€ä¿ç•™
 
 	unsigned char P13_Past=0;
 
 	P13_Past=P13_Now;
 
-	//-----²éÑ¯IOµÄÊäÈë¼Ä´æÆ÷-----
+	//-----æŸ¥è¯¢IOçš„è¾“å…¥å¯„å­˜å™¨-----
 
 	if((P1IN&BIT3) == BIT3) 	P13_Now= 1;
 		else		P13_Now = 0;
-	//-----Ç°Ò»´Î¸ßµçÆ½¡¢ºóÒ»´ÎµÍµçÆ½£¬ËµÃ÷°´¼ü°´ÏÂ-----
+	//-----å‰ä¸€æ¬¡é«˜ç”µå¹³ã€åä¸€æ¬¡ä½ç”µå¹³ï¼Œè¯´æ˜æŒ‰é”®æŒ‰ä¸‹-----
 
 #ifndef DTRIGGER
 	if((P1IN&BIT4) == BIT4)

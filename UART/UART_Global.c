@@ -1,17 +1,17 @@
 /*
  * UART_Global.c
- * ËµÃ÷£ºUARTµÄFIFO¿âº¯Êı
+ * è¯´æ˜ï¼šUARTçš„FIFOåº“å‡½æ•°
  *  Created on: 2013-3-18
  *      Author: Administrator
  */
 #include "UART_Global.h"
 
-unsigned char Rx_FIFO[RX_FIFO_SIZE]={0};		//UART½ÓÊÕFIFOÊı×é
-unsigned char Rx_FIFO_DataNum=0;					//UART½ÓÊÕFIFOµÄ¡°¿ÕÂú¡±Ö¸Ê¾±äÁ¿
-unsigned char Rx_FIFO_IndexR=0;						//UART½ÓÊÕFIFOµÄÄ£Äâ¡°¶ÁÖ¸Õë¡±±äÁ¿
-unsigned char Rx_FIFO_IndexW=0;						//UART½ÓÊÕFIFOµÄÄ£Äâ¡°Ğ´Ö¸Õë¡±±äÁ¿
+unsigned char Rx_FIFO[RX_FIFO_SIZE]={0};		//UARTæ¥æ”¶FIFOæ•°ç»„
+unsigned char Rx_FIFO_DataNum=0;					//UARTæ¥æ”¶FIFOçš„â€œç©ºæ»¡â€æŒ‡ç¤ºå˜é‡
+unsigned char Rx_FIFO_IndexR=0;						//UARTæ¥æ”¶FIFOçš„æ¨¡æ‹Ÿâ€œè¯»æŒ‡é’ˆâ€å˜é‡
+unsigned char Rx_FIFO_IndexW=0;						//UARTæ¥æ”¶FIFOçš„æ¨¡æ‹Ÿâ€œå†™æŒ‡é’ˆâ€å˜é‡
 
-unsigned char Tx_FIFO[TX_FIFO_SIZE]={0};		//UART·¢ËÍFIFOÊı×é
-unsigned char Tx_FIFO_DataNum=0;					//UART·¢ËÍFIFOµÄ¡°¿ÕÂú¡±Ö¸Ê¾±äÁ¿
-unsigned char Tx_FIFO_IndexR=0;						//UART·¢ËÍFIFOµÄÄ£Äâ¡°¶ÁÖ¸Õë¡±±äÁ¿
-unsigned char Tx_FIFO_IndexW=0;						//UART·¢ËÍFIFOµÄÄ£Äâ¡°Ğ´Ö¸Õë¡±±äÁ¿
+unsigned char Tx_FIFO[TX_FIFO_SIZE]={0};		//UARTå‘é€FIFOæ•°ç»„
+unsigned char Tx_FIFO_DataNum=0;					//UARTå‘é€FIFOçš„â€œç©ºæ»¡â€æŒ‡ç¤ºå˜é‡
+unsigned char Tx_FIFO_IndexR=0;						//UARTå‘é€FIFOçš„æ¨¡æ‹Ÿâ€œè¯»æŒ‡é’ˆâ€å˜é‡
+unsigned char Tx_FIFO_IndexW=0;						//UARTå‘é€FIFOçš„æ¨¡æ‹Ÿâ€œå†™æŒ‡é’ˆâ€å˜é‡
