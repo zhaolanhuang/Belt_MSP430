@@ -18,7 +18,6 @@ void FlagPlus()
 	else
 	{
 		Flag++;
-		Temp++;
 	}
 }
 void FlagSub()
@@ -32,7 +31,6 @@ void FlagSub()
 	else
 	{
 		Flag--;
-		Temp++;
 	}
 }
 void ResultCalc()
@@ -41,10 +39,13 @@ void ResultCalc()
 	unsigned int ShrinkResultLen = 0;
 	unsigned int DrawResultLen = 0;
 	static unsigned char isCount = 0;
-	if (Flag == FLAGMAX && Flag_Past == FLAGMIN)//Shrink Over
+
+	//Shrink Over
+	//End of exhaling, beginning of inhaling
+	if (Flag == FLAGMAX && Flag_Past == FLAGMIN)
 	{
 		
-		ShrinkResultLen = CountShrinkLen + Temp - (FLAGMAX - FLAGMIN - 1);
+		ShrinkResultLen = CountShrinkLen + (FLAGMAX - FLAGMIN);
 		if(isCount == 1)
 		{
 			SaveShrinkToArray(ShrinkResultLen);
@@ -53,25 +54,22 @@ void ResultCalc()
 		CalcBreathTime();
 		isCount = 1;
 		CountShrinkLen = 0;
-		CountDrawLen = CountDrawLen + (FLAGMAX - FLAGMIN - 1);
-		Temp = 0;
-		CountShrink++;
 
 
 	}
-	else if (Flag == FLAGMIN && Flag_Past == FLAGMAX)//Draw Over
+
+	//Draw Over
+	//End of inhaling, beginning of exhaling
+	else if (Flag == FLAGMIN && Flag_Past == FLAGMAX)
 	{
 		
-		DrawResultLen = CountDrawLen + Temp- (FLAGMAX - FLAGMIN - 1);
+		DrawResultLen = CountDrawLen + (FLAGMAX - FLAGMIN);
 		if(isCount == 1)
 		{
 			SaveDrawToArray(DrawResultLen);
 		}
 
 		CountDrawLen = 0;
-		CountShrinkLen = CountShrinkLen + (FLAGMAX - FLAGMIN - 1);
-		Temp = 0;
-		CountDraw++;
 
 	}
 	else if (Flag == FLAGMIN && Flag_Past == FLAGMIN)//Shrinking
@@ -79,7 +77,7 @@ void ResultCalc()
 		CountShrinkLen++;
 
 	}
-	else if (Flag == FLAGMAX && Flag_Past == FLAGMAX)//Shrinking
+	else if (Flag == FLAGMAX && Flag_Past == FLAGMAX)//Drawing
 	{
 		CountDrawLen++;
 

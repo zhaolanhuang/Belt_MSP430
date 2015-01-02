@@ -22,40 +22,31 @@ void Real_Time()
 void CalcBreathTime()
 {
 
-	static unsigned char TimeFlag = 0;
+	static unsigned char isFirstrespiration = 1;
 	static char BreathTimeIndex = 0;
 	IE2 &= ~(UCA0RXIE);
-	if(TimeFlag == 0)
+	//Begining of first respiration period
+	if(isFirstrespiration == 1) 
 	{
-	BreathTime[BreathTimeIndex] = Second *10+ Timmer_Cycle;
-	TimeFlag = 1;
+		BreathTime[BreathTimeIndex] = Second * 10 + Timmer_Cycle;
+		isFirstrespiration = 0;
 	}
-	else if(TimeFlag == 1)
+	//End of respiration period, begining of the next respiration period
+	//calculate respiration duration, save and send measurement data
+	else
 	{
-	BreathTime[BreathTimeIndex] = (Second *10+ Timmer_Cycle) - BreathTime[BreathTimeIndex];
-	SendData(BreathTimeIndex);
+		BreathTime[BreathTimeIndex] = (Second * 10 + Timmer_Cycle) - BreathTime[BreathTimeIndex];
+		SendData(BreathTimeIndex);
 
-
-	if(BreathTimeIndex > ARRAYLEN -2)
-		{
-		IE2 &= ~(UCA0RXIE);
 		#ifdef SAVE
-
-		int i;
-		for(i = 0;i<ARRAYLEN ;i++)
-		{
-			Push(&BreathTime[i]);
-			Push(&arrayDrawResultLen[i]);
-			Push(&arrayShrinkResultLen[i]);
-		}
-
+			Push(&BreathTime[BreathTimeIndex]);
+			Push(&arrayDrawResultLen[BreathTimeIndex]);
+			Push(&arrayShrinkResultLen[BreathTimeIndex]);
 		#endif
 
-
-			BreathTimeIndex = -1;
-		}
-	BreathTimeIndex++;
-	BreathTime[BreathTimeIndex] = Second *10+ Timmer_Cycle;
+		BreathTimeIndex++;
+		if (BreathTimeIndex >ARRAYLEN-1) BreathTimeIndex = 0;
+		BreathTime[BreathTimeIndex] = Second *10+ Timmer_Cycle;
 
 
 
