@@ -55,21 +55,20 @@ void UART_OnRx(void)
 			Rx_FIFO_Clear();				//清空FIFO
 			IE2 |= (UCA0RXIE);
 		}
-							//如果啥数据都没有（光敲了个回车）
-	//		UART_SendString(String1);  	//显示命令提示符
-	//		UART_SendString(String2);	//显示命令提示符
+
 
 	}
 	//-----既不是回车也不是退格，那就正常存命令数据-----
 	else
 	{
-		if(Rx_FIFO_DataNum >= RX_FIFO_SIZE)
+		if(!Rx_FIFO_WriteChar(Temp))
 			{
 				UART_SendString(strERR);
 				Rx_FIFO_Clear();
+				Rx_FIFO_WriteChar(Temp)
 				return;
 			}
-		Rx_FIFO_WriteChar(Temp); 			//正常写FIFO
+		
 	}
 }
 /******************************************************************************************************
@@ -108,8 +107,9 @@ void Command_match()  // 字符匹配命令
 {
 	if(Rx_FIFO[0] == 'R' && Rx_FIFO[1] == 'S' && Rx_FIFO[2] == 'T')
 	{
-		//UART_SendString(strACKQ);
 		BState = IDLE;
+		UART_SendString(strACKQ);
+		
 		return;
 	}
 	if(Rx_FIFO[0] == 'T' && Rx_FIFO[1] == 'X' && Rx_FIFO[2] == 'D')
@@ -119,97 +119,23 @@ void Command_match()  // 字符匹配命令
 				{
 					BState = BTRANSMIT;
 					TransmitMode = HISTORY;
-				//	UART_SendString(strACKQ);
+					UART_SendString(strACKQ);
 					return;
 				}
 				else if(Rx_FIFO[3] == '1')
 				{
 					BState = BTRANSMIT;
 					TransmitMode = REALTIME;
-				//	UART_SendString(strACKQ);
+					UART_SendString(strACKQ);
 					return;
 				}
 				else
 				{
-				//	UART_SendString(strERR);
+					UART_SendString(strERR);
 					return;
 				}
 			}
-/*	if(Rx_FIFO[0] == 'T' && Rx_FIFO[1] == 'E' && Rx_FIFO[2] == 'S'&& Rx_FIFO[3] == 'T')
-	{
-		BState = BTEST;
-		return;
-	}
-	if(BState == IDLE)
-	{
-		if(Rx_FIFO[0] == 'R' && Rx_FIFO[1] == 'E' && Rx_FIFO[2] == 'Q')
-		{
-		//	UART_SendString(strACKQ);
-		//	BState = CONNECTED;
-			BState = SEND;
-		}
-		else
-		{
-			UART_SendString(strERR);
-		}
-		return;
-	}
-	if(BState == CONNECTED)
-	{
-		if(Rx_FIFO[0] == 'T' && Rx_FIFO[1] == 'X' && Rx_FIFO[2] == 'D')
-		{
 
-			if(Rx_FIFO[3] == '0')
-			{
-				BState = BTRANSMIT;
-				TransmitMode = HISTORY;
-				UART_SendString(strACKQ);
-				return;
-			}
-			else if(Rx_FIFO[3] == '1')
-			{
-				BState = BTRANSMIT;
-				TransmitMode = REALTIME;
-				UART_SendString(strACKQ);
-				return;
-			}
-			else
-			{
-				UART_SendString(strERR);
-				return;
-			}
-
-		}
-		else
-		{
-			UART_SendString(strERR);
-			return;
-		}
-	}
-	if(BState == PRESEND)
-	{
-		if(Rx_FIFO[0] == 'A' && Rx_FIFO[1] == 'C' && Rx_FIFO[2] == 'K' && Rx_FIFO[3] == 'Q')
-
-		{
-			if(TransmitMode == REALTIME)
-			{
-				UART_SendString("HELLO+\0");
-				return;
-			}
-			BState = SEND;
-			return;
-		}
-		if(Rx_FIFO[0] == 'E' && Rx_FIFO[1] == 'N' && Rx_FIFO[2] == 'D' && Rx_FIFO[3] == 'T')
-
-		{
-			BState = CONNECTED;
-			UART_SendString(strACKQ);
-			return;
-		}
-		UART_SendString(strERR);
-		return;
-	}*/
-	//UART_SendString(strERR);
 	return;
 }
 
