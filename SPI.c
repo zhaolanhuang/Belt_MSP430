@@ -1,3 +1,4 @@
+//修改自 G2 pocket lab code for CCS6.2 示例
 /*
  * SPI.c
  * 根据CKPH和CKPL控制位的不同，SPI的时序有4种约定

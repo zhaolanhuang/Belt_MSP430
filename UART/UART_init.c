@@ -1,3 +1,4 @@
+//修改自 G2 pocket lab code for CCS6.2 示例
 /*
  * UART_init.c
  * 功能：初始化USCI_A0模块为UART模式，配置UART为波特率9600,8位数据,无校验,1位停止位

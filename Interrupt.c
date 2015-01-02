@@ -68,32 +68,32 @@ void P1_IODect()
 	if((P1IN&BIT4) == BIT4)
 	{
 		if((P13_Now==1)&&(P13_Past==0))
-#ifndef TEST
-			FlagPlus();
-#else
-			CountDrawLen++;
-#endif
+		#ifndef TEST
+					FlagPlus();
+		#else
+					CountDrawLen++;
+		#endif
 		if((P13_Now==0)&&(P13_Past==1))
-#ifndef TEST
-			FlagSub();
-#else
-			CountShrinkLen++;
-#endif
+		#ifndef TEST
+					FlagSub();
+		#else
+					CountShrinkLen++;
+		#endif
 	}
 	else
 	{
 		if((P13_Now==1)&&(P13_Past==0))
-#ifndef TEST
-			FlagSub();
-#else
-			CountShrinkLen++;
-#endif
+		#ifndef TEST
+					FlagSub();
+		#else
+					CountShrinkLen++;
+		#endif
 		if((P13_Now==0)&&(P13_Past==1))
-#ifndef TEST
-			FlagPlus();
-#else
-			CountDrawLen++;
-#endif
+		#ifndef TEST
+					FlagPlus();
+		#else
+					CountDrawLen++;
+		#endif
 	}
 #endif
 
@@ -101,17 +101,17 @@ void P1_IODect()
 	if((P13_Now==1)&&(P13_Past==0) || (P13_Now==0)&&(P13_Past==1))
 	{
 		if((P1IN&BIT4) == BIT4)
-#ifdef TEST
-			CountShrinkLen++;
-#else
-			FlagSub();
-#endif
+		#ifdef TEST
+					CountShrinkLen++;
+		#else
+					FlagSub();
+		#endif
 		else
-#ifdef TEST
-			CountDrawLen++;
-#else
-			FlagPlus();
-#endif
+		#ifdef TEST
+					CountDrawLen++;
+		#else
+					FlagPlus();
+		#endif
 
 	}
 #endif

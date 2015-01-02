@@ -1,8 +1,10 @@
+//修改自 G2 pocket lab code for CCS6.2 示例
 /*
  * UART_Event.c
  * 功能：全面处理与上位机通信的相关事宜
  *  Created on: 2013-3-18
  *      Author: Administrator
+ *  
  */
 #include "MSP430G2553.h"
 #include "UART_Global.h"
