@@ -1,7 +1,10 @@
 //修改自 G2 pocket lab code for CCS6.2 示例
+//Adapted from DEMO G2 pocket lab code for CCS6.2
 /*
  * UART_FIFO.c
  *
+ * Implementation of FIFO buffer for UART
+ * 
  *  Created on: 2013-3-18
  *      Author: Administrator
  */

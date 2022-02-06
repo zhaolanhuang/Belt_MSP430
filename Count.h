@@ -10,7 +10,7 @@
 #include "Global.h"
 
 
-void FlagPlus();//When Drawing Plus the Flag
+void FlagPlus();//When Stretching Plus the Flag
 void FlagSub();//When Shrinking Sub the Flag
 void ResultCalc();
 

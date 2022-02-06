@@ -14,12 +14,14 @@
 /*
 Using Word R/W Mode
 堆栈式操作
+Stack-liked operation
 第一页前两个字作为当前数据指针位置
+The first two words of the first page are reserved for stack top pointer
 */
 #define PAGEBASE 0
 #define OFFSETBASE 1
-extern unsigned int pageIndex;//当前页索引,range [0,4095]
-extern unsigned int pageOffsetIndex;//页内偏移,range [0,127]
+extern unsigned int pageIndex;//当前页索引,range [0,4095] Current page index
+extern unsigned int pageOffsetIndex;//页内偏移,range [0,127] current page offset per word
 void Push(unsigned int *data);
 unsigned char Pop(unsigned int *data);
 extern void SaveData();//保存ARRAYLEN组呼吸数据

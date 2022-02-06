@@ -5,17 +5,17 @@
 #include"SPI.h"
 
 
-#define DF_RESET     P2OUT &=~BIT4; P2OUT |= BIT4;      // AT45DB081复位
+#define DF_RESET     P2OUT &=~BIT4; P2OUT |= BIT4;      // AT45DB081 reset
 #define BUFFER_1_READ 0xD4     // buffer 1 read (change to 0xD4 for SPI mode 0,3)
 #define BUFFER_2_READ 0xD6     // buffer 2 read (change to 0xD6 for SPI
 #define BUFFER_1_WRITE 0x84     // buffer 1 write
 #define BUFFER_2_WRITE 0x87
 #define STATUS_REGISTER 0xD7
 #define B1_TO_PAGE_WITH_ERASE 0x83
-#define PAGE_TO_B2_XFER 0x55     // main memory page to buffer 2 transfer
-#define PAGE_TO_B1_XFER 0x53     // main memory page to buffer 1 t
-#define B1_TO_PAGE_WITHOUT_ERASE 0x88   // buffer 1 to
-#define PAGE_PROG_THROUGH_B1 0x82    // main memory
+#define PAGE_TO_B2_XFER 0x55     // transfer flash page to buffer 2 
+#define PAGE_TO_B1_XFER 0x53     // transfer flash page to buffer 1 
+#define B1_TO_PAGE_WITHOUT_ERASE 0x88   // buffer 1 to flash page
+#define PAGE_PROG_THROUGH_B1 0x82    
 
 #define CHIP_ERASE_1 0xC7
 #define CHIP_ERASE_2 0x94

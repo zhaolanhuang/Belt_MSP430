@@ -1,4 +1,5 @@
 //修改自 G2 pocket lab code for CCS6.2 示例
+//Adapted from DEMO G2 pocket lab code for CCS6.2
 /*
  * UART_Global.c
  * 说明：UART的FIFO库函数

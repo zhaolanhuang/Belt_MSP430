@@ -7,6 +7,11 @@
 #include "Time.h"
 
 unsigned int BreathTime[ARRAYLEN]={0};
+
+/**
+ * Soft RTC
+ * Called every 100 ms.
+ */
 void Real_Time()
 {
 	Timmer_Cycle++;
@@ -19,20 +24,24 @@ void Real_Time()
 	}
 
 }
+
+/**
+ * Called by count.c/ResultCalc at every beginning of inhalation
+ * Calculate the duration of each respiratory period, then save and send the measurement data
+ */
 void CalcBreathTime()
 {
 
 	static unsigned char isFirstrespiration = 1;
 	static char BreathTimeIndex = 0;
 	IE2 &= ~(UCA0RXIE);
-	//Begining of first respiration period
+	//Begining of the first respiratory period
 	if(isFirstrespiration == 1) 
 	{
 		BreathTime[BreathTimeIndex] = Second * 10 + Timmer_Cycle;
 		isFirstrespiration = 0;
 	}
-	//End of respiration period, begining of the next respiration period
-	//calculate respiration duration, save and send measurement data
+	//End of a respiratory period, begining of the next respiratory period
 	else
 	{
 		BreathTime[BreathTimeIndex] = (Second * 10 + Timmer_Cycle) - BreathTime[BreathTimeIndex];

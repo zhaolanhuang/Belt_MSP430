@@ -25,13 +25,13 @@ extern unsigned int CountShrinkLen;
 extern unsigned int arrayDrawResultLen[ARRAYLEN];
 extern unsigned int arrayShrinkResultLen[ARRAYLEN];
 extern unsigned int BreathTime[ARRAYLEN];
-extern unsigned char Flag;//Flag round [FLAGMIN,FLAGMAX].FLAGMIN means Shrinking.FLAGMAX means Drawing.(FLAGMIN,FLAGMAX)means Temping.
-extern unsigned int Temp;//When Flag round (FLAGMIN,FLAGMAX) whatever Shrinking or Drawing Temp++
+extern unsigned char Flag;////Flag ranges [FLAGMIN,FLAGMAX].FLAGMIN means Shrinking.FLAGMAX means Stretching.
+extern unsigned int Temp;
 extern unsigned int CountDraw;
 extern unsigned int CountShrink;
 extern unsigned int Second;
 extern unsigned char Timmer_Cycle;
-extern unsigned char isInTimmer;//0 no,1 yes
+extern unsigned char isInTimmer;//0 no,1 yes if in the ISR of Timer
 extern unsigned char Tick[];
 #define REALTIME 1
 #define HISTORY 0

@@ -17,10 +17,17 @@ void ALL_Init()
 	ReadPointer(); //Read
 
 #endif
-	USCI_A0_init();
+	USCI_A0_init(); //UART init for Bluetooth serial
 	TA0_Init();//Timmer Init
 }
-void GPIO_Init() //SET P1.3(U1) P1.4(U2) as D_TRigger and CHA input.
+
+
+/**
+ * SET P1.3(U1) P1.4(U2) to receive the output from D_TRigger and encoder, respectively.
+ * Output of D-Trigger represents the moving direction of scale
+ * Pulse output of encoder represents the moving distance of scale
+ */
+void GPIO_Init() 
 {
 	P1DIR &= ~(BIT3+BIT4); //P1.0 as INPUT
 	P1REN |= BIT3+BIT4;	//Enable Resistor
@@ -29,20 +36,28 @@ void GPIO_Init() //SET P1.3(U1) P1.4(U2) as D_TRigger and CHA input.
 
 }
 
+/**
+ * Initialize timer
+ * TA1 for soft RTC
+ * TA0 for system time base and edge detection for output of linear (optical) encoder
+ * TA1: 100 [ms / tick], TA0: 0.5 [ms / tick]
+ */
 void TA0_Init()
 {
 	TA0CTL = 0;
 	TA1CTL = 0;
-	TA1CCR0 = 12500;//100ms/pulze
+	TA1CCR0 = 12500;//100 [ms / tick]
 	TA1CCTL0 |= CCIE;
 	TACCTL0 |= CCIE;
-	TACCR0 = TIMMER_PERIOD;//1750,1000
+	TACCR0 = TIMMER_PERIOD;//0.5 [ms / tick]
 	TA0CTL |= TASSEL_2 + ID_0 + MC_1;
 	TA1CTL |= TASSEL_2 + ID_3 + MC_1;
 
 }
 
-
+/**
+ * Initialize clocks
+ */
 void BCSplus_init(void)
 {
     /*

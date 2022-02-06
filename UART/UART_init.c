@@ -1,7 +1,11 @@
 //修改自 G2 pocket lab code for CCS6.2 示例
+//Adapted from DEMO G2 pocket lab code for CCS6.2
 /*
  * UART_init.c
- * 功能：初始化USCI_A0模块为UART模式，配置UART为波特率9600,8位数据,无校验,1位停止位
+ * 功能：初始化USCI_A0模块为UART模式，配置UART为波特率115200,8位数据,无校验,1位停止位
+ * Initialize USCI_A0 module with baud rate 115200, 8 Bit Char, No parity check, 1 bit stop
+ * Tx/Rx ISRs of USCI_A0 and SPI
+ * 
  *  Created on: 2013-3-18
  *  Author: Administrator
  */
